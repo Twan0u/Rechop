@@ -1,7 +1,34 @@
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
+System.out.println("      _____              _                   ");
+System.out.println("     |  __ \\            | |                  ");
+System.out.println("     | |__) | ___   ___ | |__    ___   _ __  ");
+System.out.println("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
+System.out.println("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
+System.out.println("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
+System.out.println("                                      | |    ");
+System.out.println("                                      |_|");
 
+
+      Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+
+      System.out.println("Sélectionner la valeur de a");
+      String a = myObj.nextLine();  // Read user input
+
+      System.out.println("Sélectionner la valeur de c");
+      String c = myObj.nextLine();  // Read user input
+
+      System.out.println("Sélectionner la valeur de m");
+      String m = myObj.nextLine();  // Read user input
+
+      System.out.println("Sélectionner la valeur de X0");
+      String x = myObj.nextLine();  // Read user input
+
+
+    System.out.println("Les valeurs sélectionnées sont: " + a + ", "+ c + ", "+ m + ", "+ x);
         //affiche(occurency("1241242576"));
         //System.out.println(fact(4));
     }
