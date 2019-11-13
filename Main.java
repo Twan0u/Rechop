@@ -129,7 +129,7 @@ public class Main {
      */
     private static boolean isLess(char nb1, char nb2){
 
-        if(Character.compare(nb1,nb2)<=0){
+        if(Character.compare(nb1,nb2)<0){
             return true;
         }
         return false;
