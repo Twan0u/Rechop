@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args){
-        //menu();
+        menu();
+        printTab(null);
         //affiche(subList("145589321895367"));
         //System.out.println(fact(4));
     }
@@ -11,33 +12,49 @@ public class Main {
     /*
     * encoding value menu
      */
-    private static void menu(){
-        System.out.println("      _____              _                   ");
-        System.out.println("     |  __ \\            | |                  ");
-        System.out.println("     | |__) | ___   ___ | |__    ___   _ __  ");
-        System.out.println("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
-        System.out.println("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
-        System.out.println("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
-        System.out.println("                                      | |    ");
-        System.out.println("                                      |_|");
+    private static String[] menu(){
+      System.out.println("      _____              _                   ");
+      System.out.println("     |  __ \\            | |                  ");
+      System.out.println("     | |__) | ___   ___ | |__    ___   _ __  ");
+      System.out.println("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
+      System.out.println("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
+      System.out.println("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
+      System.out.println("                                      | |    ");
+      System.out.println("                                      |_|");
 
+        String[] out = new String[5];
 
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        out[0] = askUser("Sélectionner la valeur de a");
+        out[1] = askUser("Sélectionner la valeur de c");
+        out[2] = askUser("Sélectionner la valeur de m");
+        out[3] = askUser("Sélectionner la valeur de X0");
+        out[4] = askUser("Sélectionner la valeur du degré d'erreurs");
 
-        System.out.println("Sélectionner la valeur de a");
-        String a = myObj.nextLine();  // Read user input
+        System.out.println("Les valeurs sélectionnées sont: " + out[0] + ", "+ out[1] + ", "+ out[2] + ", "+ out[3]+ ", " + out[4]);
 
-        System.out.println("Sélectionner la valeur de c");
-        String c = myObj.nextLine();  // Read user input
+        return out;
+    }
 
-        System.out.println("Sélectionner la valeur de m");
-        String m = myObj.nextLine();  // Read user input
+    public static String askUser(String message){
+      Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
+      System.out.println(message);
+      return scannerObj.nextLine();
+        //TODO Validation ?
+    }
 
-        System.out.println("Sélectionner la valeur de X0");
-        String x = myObj.nextLine();  // Read user input
-
-
-        System.out.println("Les valeurs sélectionnées sont: " + a + ", "+ c + ", "+ m + ", "+ x);
+    /* TODO
+    * Display an array
+    */
+    public static void printTab(String[] tab){
+      System.out.println("-----------------------------------------------------------------------------");
+      System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.p)^2/(n.pi)");
+      System.out.println();
+      System.out.println("-----------------------------------------------------------------------------");
+      //TODO
+      for(int i=0;i<10;i++){//TODO Foreach
+        System.out.printf("%5d %15f %10f %10f %20f", i, 0.0, 0.0, 0.0, 0.0);
+        System.out.println();
+      }
     }
 
     /*
