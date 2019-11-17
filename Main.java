@@ -7,8 +7,7 @@ public class Main {
     public static void main(String[] args) {
         //menu();
         //printTab(null);
-        affiche(process(hubbDobell(15,11,7,3)));
-        //System.out.print(espectedProbability(10));
+        //affiche(process(hubbDobell(15,11,7,3)));
     }
 
     /*
@@ -24,15 +23,16 @@ public class Main {
         System.out.println("                                      | |    ");
         System.out.println("                                      |_|");
 
-        String[] out = new String[5];
+        String[] out = new String[6];
 
         out[0] = askUser("Sélectionner la valeur de a");
         out[1] = askUser("Sélectionner la valeur de c");
         out[2] = askUser("Sélectionner la valeur de m");
         out[3] = askUser("Sélectionner la valeur de X0");
-        out[4] = askUser("Sélectionner la valeur du degré d'erreurs");
+        out[4] = askUser("Sélectionner la valeur de n (le nombre d'entier à générer)");
+        out[5] = askUser("Sélectionner la valeur du degré d'erreurs");
 
-        System.out.println("Les valeurs sélectionnées sont: " + out[0] + ", " + out[1] + ", " + out[2] + ", " + out[3] + ", " + out[4]);
+        System.out.println("Les valeurs sélectionnées sont: " + out[0] + ", " + out[1] + ", " + out[2] + ", " + out[3] + ", " + out[4]+ ", " + out[5]);
 
         return out;
     }
@@ -46,6 +46,7 @@ public class Main {
 
     /* TODO
      * Display an array
+     * !!!!! pas toujours de taille 10!!!!
      */
     public static void printTab(String[] tab) {
         System.out.println("-----------------------------------------------------------------------------");
@@ -61,23 +62,26 @@ public class Main {
 
     /*
      * Generate all the Xn
+     * X0 won't be in the array!
      */
-    private static int [] hubbDobell(int a, int c, int m, int x) {
-        int[]X=new int[m];
-        for(int i=0;i<m;i++){
-            // don't need x0
+    private static int [] hubbDobell(int a, int c, int m, int x, int n) {
+        int[]X=new int[n];
+        for(int i=0;i<n;i++){
             x=((a * x + c) % m);
             X[i]=x;
         }
         return X;
     }
 
-    private static int[] process(int tab[]){
-        int []R=new int[tab.length];
+    /*
+    * Ri calculation
+    * The size of  the series will be between 1 et m
+     */
+    private static int[] process(int tab[], int m){
+        int []R=new int[m];
         int size=1;
-        for(int i=0;i<tab.length;i++){
+        for(int i=0;i<m;i++){
             if(tab[i]>=tab[i+1]){
-                //on ne prend pas 0 car impossible
                 R[size-1]++;
                 size=1;
                 i++;
@@ -94,7 +98,7 @@ public class Main {
     }
 
     /*
-     * calculation of p
+     * calculation of pi
      */
     private static double espectedProbability(int i) {
         double res = 1;
