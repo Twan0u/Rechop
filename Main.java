@@ -8,6 +8,7 @@ public class Main {
         //menu();
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
+        //affiche(piCalculation(6,10,true));
     }
 
     /*
@@ -77,7 +78,7 @@ public class Main {
     * Ri calculation
     * The size of  the series will be between 1 et m
      */
-    private static int[] process(int tab[], int m){
+    private static int[] realProbability(int tab[], int m){
         int []R=new int[m];
         int size=1;
         for(int i=0;i<m;i++){
@@ -113,6 +114,21 @@ public class Main {
     }
 
     /*
+    * Give the array of Pi if needN is false
+    * Give the array of n*Pi if needN is true
+     */
+    private static double[] piCalculation(int m,int n,boolean needN){
+        double tab[]= new double[m];
+        for(int i=0; i<m;i++){
+            tab[i]=espectedProbability(i+1);
+            if(needN){
+                tab[i]*=n;
+            }
+        }
+        return tab;
+    }
+
+    /*
      * calculation of all khiCube
      */
     private static double[] khiCube(int[] r, int p, int n) {
@@ -129,7 +145,7 @@ public class Main {
     /*
      * inutile juste pour les tests
      */
-    private static void affiche(int tab[]) {
+    private static void affiche(double tab[]) {
         for (int i = 0; i < tab.length; i++) {
             System.out.println(tab[i]);
         }
