@@ -74,7 +74,6 @@ public class Main {
      */
     public static void printTab(int m, int[] ri, double pi[], double npi[]) {
 
-
         System.out.println("-----------------------------------------------------------------------------");
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.p)^2/(n.pi)");
         System.out.println();
