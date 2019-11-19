@@ -16,7 +16,8 @@ public class Main {
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
-        System.out.println(checkA(24,0));
+        //System.out.println(checkA(75,16));
+        //System.out.print(isPrime(37));
 
     }
 
@@ -59,6 +60,13 @@ public class Main {
     }
 
     public static int askUser(String message) { //TODO VALIDATION
+
+        // 0 < m
+        //0< a < m
+        //0 < c < m
+        //0 < x0 <m
+        // respect condition areFirst()->true
+        // respect condition checkA()->true
       while(true){
         Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println(message);
@@ -74,7 +82,6 @@ public class Main {
      * Display an array
      */
     public static void printTab(int m, int[] ri, double pi[], double npi[]) {
-
 
         System.out.println("-----------------------------------------------------------------------------");
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.p)^2/(n.pi)");
@@ -104,20 +111,31 @@ public class Main {
         return false;
     }
 
+    private static boolean isPrime(int nb){
+        for(int i=2; i<=nb/2;i++){
+            if(nb%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     /*
      * true if a is good, false otherwise
      */
     private static boolean checkA(int m, int a){
-        int temp =m;
-        for(int i=2; i<m|| temp<;i++){
-            if(m%i==0){
-                int temp= m/i;
-                max=temp;
-                if((a-1)%i!=0 && (a-1)%temp!=0){
+
+        int max=m;
+        for(int i=2; i<max;i++) {
+            if (m % i == 0) {
+                int temp = m / i;
+                if (isPrime(i) && (a - 1) % i != 0) {
                     return false;
                 }
             }
+            max=m/i;
         }
+
         return true;
     }
 
