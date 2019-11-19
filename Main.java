@@ -16,7 +16,7 @@ public class Main {
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
-        System.out.println(checkA(75,0));
+        System.out.println(checkA(24,0));
 
     }
 
@@ -108,14 +108,14 @@ public class Main {
      * true if a is good, false otherwise
      */
     private static boolean checkA(int m, int a){
-        for(int i=2; i<(m+1)/i;i++){
+        int temp =m;
+        for(int i=2; i<m|| temp<;i++){
             if(m%i==0){
                 int temp= m/i;
-                //if((a-1)%i!=0 && (a-1)%temp!=0){
-                //    return false;
-                System.out.println(i);
-                System.out.println(temp);
-                //}
+                max=temp;
+                if((a-1)%i!=0 && (a-1)%temp!=0){
+                    return false;
+                }
             }
         }
         return true;
