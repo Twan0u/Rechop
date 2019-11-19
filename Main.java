@@ -4,18 +4,26 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        //menu();
+        //int[] params = menu();
+        //int a = params[0];
+        //int c = params[1];
+        //int m = params[2];
+        //int x = params[3];
+        //int n = params[4];
+
+        //calcTab(a,c,m,x,n);
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
         System.out.println(checkA(75,0));
+
     }
 
     /*
      * encoding value menu
      */
-    private static String[] menu() {
+    private static int[] menu() {
         System.out.println("      _____              _                   ");
         System.out.println("     |  __ \\            | |                  ");
         System.out.println("     | |__) | ___   ___ | |__    ___   _ __  ");
@@ -25,7 +33,7 @@ public class Main {
         System.out.println("                                      | |    ");
         System.out.println("                                      |_|");
 
-        String[] out = new String[6];
+        int[] out = new int[6];
 
         out[0] = askUser("Sélectionner la valeur de a");
         out[1] = askUser("Sélectionner la valeur de c");
@@ -39,25 +47,42 @@ public class Main {
         return out;
     }
 
-    public static String askUser(String message) {
+    public static void calcTab(int a, int c, int m,int x, int n){
+
+      int[] tab = hubbDobell(a,c,m,x,n);
+
+      int[] ri = realProbability(tab,m);
+      double[] pi = piCalculation(m,n,false);
+      double[] npi = piCalculation(m,n,true);
+
+      printTab(m,ri,pi,npi);
+    }
+
+    public static int askUser(String message) { //TODO VALIDATION
+      while(true){
         Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println(message);
-        return scannerObj.nextLine();
-        //TODO Validation ?
+        try{
+          return Integer.parseInt(scannerObj.nextLine());
+        }catch(NumberFormatException e){
+          System.out.println("erreur - nombre invalide");
+        }
+      }
     }
 
     /* TODO
      * Display an array
-     * !!!!! pas toujours de taille 10!!!!
      */
-    public static void printTab(String[] tab) {
+    public static void printTab(int m, int[] ri, double pi[], double npi[]) {
+
+
         System.out.println("-----------------------------------------------------------------------------");
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.p)^2/(n.pi)");
         System.out.println();
         System.out.println("-----------------------------------------------------------------------------");
         //TODO
-        for (int i = 0; i < 10; i++) {//TODO Foreach
-            System.out.printf("%5d %15f %10f %10f %20f", i, 0.0, 0.0, 0.0, 0.0);
+        for (int i = 0; i < m; i++) {//TODO Foreach
+            System.out.printf("%5d %15d %10f %10f %20f", i, ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
     }
