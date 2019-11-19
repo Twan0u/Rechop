@@ -16,7 +16,7 @@ public class Main {
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
-        //System.out.println(checkA(75,16));
+        //System.out.println(checkA(68,34));
         //System.out.print(isPrime(37));
 
     }
@@ -84,7 +84,7 @@ public class Main {
     public static void printTab(int m, int[] ri, double pi[], double npi[]) {
 
         System.out.println("-----------------------------------------------------------------------------");
-        System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.p)^2/(n.pi)");
+        System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
         System.out.println("-----------------------------------------------------------------------------");
         //TODO
@@ -129,7 +129,7 @@ public class Main {
         for(int i=2; i<max;i++) {
             if (m % i == 0) {
                 int temp = m / i;
-                if (isPrime(i) && (a - 1) % i != 0) {
+                if ((a - 1) % i != 0 &&  (a - 1) % temp != 0 && isPrime(i) && isPrime(temp)) {
                     return false;
                 }
             }
@@ -192,8 +192,8 @@ public class Main {
     }
 
     /*
-    * Give the array of Pi if needN is false
-    * Give the array of n*Pi if needN is true
+     * Give the array of Pi if needN is false
+     * Give the array of n*Pi if needN is true
      */
     private static double[] piCalculation(int m,int n,boolean needN){
         double tab[]= new double[m];
@@ -209,12 +209,12 @@ public class Main {
     /*
      * calculation of all khiCube
      */
-    private static double[] khiSquare(int[] r, int p, int n) {
+    private static double[] khiSquare(int[] r, int []nPi) {
 
-        double khi[] = new double[9];
+        double khi[] = new double[r.length];
 
         for (int i = 0; i < r.length; i++) {
-            khi[i] = Math.pow(r[i] - n * p, 2) / n * p;
+            khi[i] = Math.pow(r[i] - nPi[i],2) / nPi[i];
         }
 
         return khi;
