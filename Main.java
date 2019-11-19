@@ -1,5 +1,4 @@
-import javafx.util.Pair;
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class Main {
@@ -9,6 +8,8 @@ public class Main {
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
+        //System.out.println(areFirst(4,51));
+        System.out.println(checkA(75,0));
     }
 
     /*
@@ -59,6 +60,40 @@ public class Main {
             System.out.printf("%5d %15f %10f %10f %20f", i, 0.0, 0.0, 0.0, 0.0);
             System.out.println();
         }
+    }
+
+    /*
+    * Euclids algorithm
+    * true if the greatest common divisor of 2 natural numbers is 1, false otherwise
+     */
+    private static boolean areFirst(int nb1, int nb2){
+
+        while(nb2!=0){
+            int t = nb2;
+            nb2 = nb1%nb2;
+            nb1=t;
+        }
+        if(nb1==1){
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * true if a is good, false otherwise
+     */
+    private static boolean checkA(int m, int a){
+        for(int i=2; i<(m+1)/i;i++){
+            if(m%i==0){
+                int temp= m/i;
+                //if((a-1)%i!=0 && (a-1)%temp!=0){
+                //    return false;
+                System.out.println(i);
+                System.out.println(temp);
+                //}
+            }
+        }
+        return true;
     }
 
     /*
@@ -131,7 +166,7 @@ public class Main {
     /*
      * calculation of all khiCube
      */
-    private static double[] khiCube(int[] r, int p, int n) {
+    private static double[] khiSquare(int[] r, int p, int n) {
 
         double khi[] = new double[9];
 
