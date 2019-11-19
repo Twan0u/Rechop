@@ -16,7 +16,7 @@ public class Main {
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
-        //System.out.println(checkA(68,34));
+        //System.out.println(checkA(24,11));
         //System.out.print(isPrime(37));
 
     }
@@ -129,7 +129,7 @@ public class Main {
         for(int i=2; i<max;i++) {
             if (m % i == 0) {
                 int temp = m / i;
-                if ((a - 1) % i != 0 &&  (a - 1) % temp != 0 && isPrime(i) && isPrime(temp)) {
+                if ((a - 1) % i != 0 && isPrime(i) || (a - 1) % temp != 0 && isPrime(temp)) {
                     return false;
                 }
             }
