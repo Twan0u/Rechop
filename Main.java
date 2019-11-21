@@ -3,8 +3,27 @@ import java.util.Scanner;
 
 public class Main {
 
+  public static final String ANSI_RESET = "\u001B[0m";
+  public static final String ANSI_BLACK = "\u001B[30m";
+  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_GREEN = "\u001B[32m";
+  public static final String ANSI_YELLOW = "\u001B[33m";
+  public static final String ANSI_BLUE = "\u001B[34m";
+  public static final String ANSI_PURPLE = "\u001B[35m";
+  public static final String ANSI_CYAN = "\u001B[36m";
+  public static final String ANSI_WHITE = "\u001B[37m";
+
+
+  public static void printError(String message){
+    System.out.println( ANSI_RED + message + ANSI_RESET );
+  }
+
+  public static void printBlueText(String message){
+    System.out.println( ANSI_BLUE + message + ANSI_RESET );
+  }
+
     public static void main(String[] args) {
-        //int[] params = menu();
+        int[] params = menu();
         //int a = params[0];
         //int c = params[1];
         //int m = params[2];
@@ -23,27 +42,55 @@ public class Main {
 
     /*
      * encoding value menu
+     * TODO : - respect condition areFirst()->true
+     *        - respect condition checkA()->true
      */
     private static int[] menu() {
-        System.out.println("      _____              _                   ");
-        System.out.println("     |  __ \\            | |                  ");
-        System.out.println("     | |__) | ___   ___ | |__    ___   _ __  ");
-        System.out.println("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
-        System.out.println("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
-        System.out.println("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
-        System.out.println("                                      | |    ");
-        System.out.println("                                      |_|");
+
+        printBlueText("      _____              _                   ");
+        printBlueText("     |  __ \\            | |                  ");
+        printBlueText("     | |__) | ___   ___ | |__    ___   _ __  ");
+        printBlueText("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
+        printBlueText("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
+        printBlueText("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
+        printBlueText("                                      | |    ");
+        printBlueText("                                      |_|    ");
 
         int[] out = new int[6];
 
-        out[0] = askUser("Sélectionner la valeur de a");
-        out[1] = askUser("Sélectionner la valeur de c");
-        out[2] = askUser("Sélectionner la valeur de m");
-        out[3] = askUser("Sélectionner la valeur de X0");
-        out[4] = askUser("Sélectionner la valeur de n (le nombre d'entier à générer)");
-        out[5] = askUser("Sélectionner la valeur du degré d'erreurs");
+        int m = askUser("Sélectionner la valeur de m");
+        while (m <= 0){
+          printError("Erreur m doit être 0 < m");
+          m = askUser("Sélectionner la valeur de m");
+        }
 
-        System.out.println("Les valeurs sélectionnées sont: " + out[0] + ", " + out[1] + ", " + out[2] + ", " + out[3] + ", " + out[4]+ ", " + out[5]);
+        int a = askUser("Sélectionner la valeur de a");
+        while (a >= m || a <= 0){
+          printError("Erreur a doit être 0 < a < m");
+          a = askUser("Sélectionner la valeur de a");
+        }
+
+        int c = askUser("Sélectionner la valeur de c");
+        while (c >= m || c <= 0){
+          printError("Erreur a doit être 0 < c < m");
+          c = askUser("Sélectionner la valeur de c");
+        }
+
+        int x = askUser("Sélectionner la valeur de X0");
+        while (x >= m || x <= 0){
+          printError("Erreur a doit être 0 < X0 < m");
+          x = askUser("Sélectionner la valeur de X0");
+        }
+
+        int n = askUser("Sélectionner la valeur de n (le nombre d'entier à générer)");
+        int e = askUser("Sélectionner la valeur du degré d'erreurs");
+
+        out[0] = a;
+        out[1] = c;
+        out[2] = m;
+        out[3] = x;
+        out[4] = n;
+        out[5] = e;
 
         return out;
     }
@@ -59,37 +106,31 @@ public class Main {
       printTab(m,ri,pi,npi);
     }
 
-    public static int askUser(String message) { //TODO VALIDATION
-
-        // 0 < m
-        //0< a < m
-        //0 < c < m
-        //0 < x0 <m
-        // respect condition areFirst()->true
-        // respect condition checkA()->true
+    public static int askUser(String message) {
       while(true){
+
         Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println(message);
+        System.out.print(">");
         try{
           return Integer.parseInt(scannerObj.nextLine());
         }catch(NumberFormatException e){
-          System.out.println("erreur - nombre invalide");
+          printError("Erreur - nombre invalide");
         }
       }
     }
 
-    /* TODO
+    /*
      * Display an array
      */
-    public static void printTab(int m, int[] ri, double pi[], double npi[]) {
+    public static void printTab(String[] tabi, String[] ri, String[] pi, String[] npi) {
 
         System.out.println("-----------------------------------------------------------------------------");
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
         System.out.println("-----------------------------------------------------------------------------");
-        //TODO
-        for (int i = 0; i < m; i++) {//TODO Foreach
-            System.out.printf("%5d %15d %10f %10f %20f", i, ri[i], pi[i], npi[i], 0.0);
+        for (int i; i< tabi.length ; i++ ) {
+            System.out.printf("%5s %15s %10s %10s %20s", tabi[i], ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
     }
