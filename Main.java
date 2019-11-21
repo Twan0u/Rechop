@@ -102,7 +102,11 @@ public class Main {
       double[] pi = piCalculation(m,n,false);
       double[] npi = piCalculation(m,n,true);
 
-        printTab(m, ri, pi, npi);
+
+        //CONVERT TO STRING
+
+
+        //printTab(tabi, ri, pi, npi);
     }
 
     public static int askUser(String message) {
@@ -117,7 +121,9 @@ public class Main {
                 printError("Erreur - nombre invalide");
             }
         }
+      }
     }
+
 
     /*
      * Display an array
@@ -128,7 +134,7 @@ public class Main {
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
         System.out.println("-----------------------------------------------------------------------------");
-        for (int i; i< tabi.length ; i++ ) {
+        for (int i=0; i < tabi.length ; i++ ) {
             System.out.printf("%5s %15s %10s %10s %20s", tabi[i], ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
