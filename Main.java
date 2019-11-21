@@ -106,15 +106,16 @@ public class Main {
     }
 
     public static int askUser(String message) {
-      while(true){
+        while (true) {
 
-        Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println(message);
-        System.out.print(">");
-        try{
-          return Integer.parseInt(scannerObj.nextLine());
-        }catch(NumberFormatException e){
-          printError("Erreur - nombre invalide");
+            Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
+            System.out.println(message);
+            System.out.print(">");
+            try {
+                return Integer.parseInt(scannerObj.nextLine());
+            } catch (NumberFormatException e) {
+                printError("Erreur - nombre invalide");
+            }
         }
     }
 
