@@ -35,7 +35,7 @@ public class Main {
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
         //System.out.println(areFirst(4,51));
-        //System.out.println(checkA(24,11));
+        //System.out.println(checkA(104,31));
         //System.out.print(isPrime(37));
 
     }
@@ -95,14 +95,14 @@ public class Main {
         return out;
     }
 
-    public static void calcTab(int a, int c, int m,int x, int n){
+    public static void calcTab(int a, int c, int m, int x, int n) {
 
       int[] tab = hubbDobell(a,c,m,x,n);
       int[] ri = realProbability(tab,m);
       double[] pi = piCalculation(m,n,false);
       double[] npi = piCalculation(m,n,true);
 
-      printTab(m,ri,pi,npi);
+        printTab(m, ri, pi, npi);
     }
 
     public static int askUser(String message) {
@@ -116,7 +116,6 @@ public class Main {
         }catch(NumberFormatException e){
           printError("Erreur - nombre invalide");
         }
-      }
     }
 
     /*
@@ -135,25 +134,25 @@ public class Main {
     }
 
     /*
-    * Euclids algorithm
-    * true if the greatest common divisor of 2 natural numbers is 1, false otherwise
+     * Euclids algorithm
+     * true if the greatest common divisor of 2 natural numbers is 1, false otherwise
      */
-    private static boolean areFirst(int nb1, int nb2){
+    private static boolean areFirst(int nb1, int nb2) {
 
-        while(nb2!=0){
+        while (nb2 != 0) {
             int t = nb2;
-            nb2 = nb1%nb2;
-            nb1=t;
+            nb2 = nb1 % nb2;
+            nb1 = t;
         }
-        if(nb1==1){
+        if (nb1 == 1) {
             return true;
         }
         return false;
     }
 
-    private static boolean isPrime(int nb){
-        for(int i=2; i<=nb/2;i++){
-            if(nb%i==0){
+    private static boolean isPrime(int nb) {
+        for (int i = 2; i <= nb / 2; i++) {
+            if (nb % i == 0) {
                 return false;
             }
         }
@@ -163,17 +162,17 @@ public class Main {
     /*
      * true if a is good, false otherwise
      */
-    private static boolean checkA(int m, int a){
+    private static boolean checkA(int m, int a) {
 
-        int max=m;
-        for(int i=2; i<max;i++) {
+        int max = m;
+        for (int i = 2; i < max; i++) {
             if (m % i == 0) {
                 int temp = m / i;
                 if ((a - 1) % i != 0 && isPrime(i) || (a - 1) % temp != 0 && isPrime(temp)) {
                     return false;
                 }
             }
-            max=m/i;
+            max = m / i;
         }
 
         return true;
@@ -183,32 +182,31 @@ public class Main {
      * Generate all the Xn
      * X0 won't be in the array!
      */
-    private static int [] hubbDobell(int a, int c, int m, int x, int n) {
-        int[]X=new int[n];
-        for(int i=0;i<n;i++){
-            x=((a * x + c) % m);
-            X[i]=x;
+    private static int[] hubbDobell(int a, int c, int m, int x, int n) {
+        int[] X = new int[n];
+        for (int i = 0; i < n; i++) {
+            x = ((a * x + c) % m);
+            X[i] = x;
         }
         return X;
     }
 
     /*
-    * Ri calculation
-    * The size of  the series will be between 1 et m
+     * Ri calculation
+     * The size of  the series will be between 1 et m
      */
-    private static int[] realProbability(int tab[], int m){
-        int []R=new int[m];
-        int size=1;
-        for(int i=0;i<m;i++){
-            if(tab[i]>=tab[i+1]){
-                R[size-1]++;
-                size=1;
+    private static int[] realProbability(int tab[], int m) {
+        int[] R = new int[m];
+        int size = 1;
+        for (int i = 0; i < m; i++) {
+            if (tab[i] >= tab[i + 1]) {
+                R[size - 1]++;
+                size = 1;
                 i++;
-            }
-            else{
+            } else {
                 size++;
-                if(i+1==tab.length-1){
-                    R[size-1]++;
+                if (i + 1 == tab.length - 1) {
+                    R[size - 1]++;
                 }
             }
 
@@ -221,26 +219,26 @@ public class Main {
      */
     private static double espectedProbability(int i) {
         double res = 1;
-        int j = i+1;
+        int j = i + 1;
 
         while (j > 1) {
             res *= j;
             j--;
         }
 
-        return i/res ;
+        return i / res;
     }
 
     /*
      * Give the array of Pi if needN is false
      * Give the array of n*Pi if needN is true
      */
-    private static double[] piCalculation(int m,int n,boolean needN){
-        double tab[]= new double[m];
-        for(int i=0; i<m;i++){
-            tab[i]=espectedProbability(i+1);
-            if(needN){
-                tab[i]*=n;
+    private static double[] piCalculation(int m, int n, boolean needN) {
+        double tab[] = new double[m];
+        for (int i = 0; i < m; i++) {
+            tab[i] = espectedProbability(i + 1);
+            if (needN) {
+                tab[i] *= n;
             }
         }
         return tab;
@@ -249,15 +247,59 @@ public class Main {
     /*
      * calculation of all khiCube
      */
-    private static double[] khiSquare(int[] r, int []nPi) {
+    private static double[] khiSquare(int[] r, int[] nPi) {
 
         double khi[] = new double[r.length];
 
         for (int i = 0; i < r.length; i++) {
-            khi[i] = Math.pow(r[i] - nPi[i],2) / nPi[i];
+            khi[i] = Math.pow(r[i] - nPi[i], 2) / nPi[i];
         }
 
         return khi;
+    }
+
+    /*
+     * Make the grouping
+     * renvoie l'index où la contrainte n'est pas respectée
+     * la somme des pi à cet endroit
+     * la somme des npi à cet endroit
+     */
+    private static double[] compress(double[] pi, double[] npi, int []rpi) {
+        double sumNpi = 0;
+        double sumPi = 0;
+        double index = -1;
+        double sumRi=0;
+        for (int i = 0; i < npi.length; i++) {
+            if (npi[i] < 5.0) {
+                index = i;
+            }
+            if (index != -1) {
+                sumNpi += npi[i];
+                sumPi += pi[i];
+                sumRi += rpi[i];
+            }
+        }
+        double[] res = new double[4];
+        res[0] = index;
+        res[1] = sumPi;
+        res[2] = sumNpi;
+        res[3] = sumRi;
+        return res;
+    }
+    /*
+    * renvoie un tableau transformé
+    * tab à copier
+    * index où il y a un changement
+    * sum calculée dans compress
+     */
+    private static double[] transform(double []tab, double index, double sum){
+        int ind=(int)index;
+        double []res=new double[ind+1];
+        for(int i=0;i<ind;i++){
+            res[i]=tab[i];
+        }
+        res[ind]=sum;
+        return res;
     }
 
     /*
