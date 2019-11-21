@@ -98,7 +98,6 @@ public class Main {
     public static void calcTab(int a, int c, int m,int x, int n){
 
       int[] tab = hubbDobell(a,c,m,x,n);
-
       int[] ri = realProbability(tab,m);
       double[] pi = piCalculation(m,n,false);
       double[] npi = piCalculation(m,n,true);
