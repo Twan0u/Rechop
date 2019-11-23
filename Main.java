@@ -23,14 +23,17 @@ public class Main {
   }
 
     public static void main(String[] args) {
-        int[] params = menu();
-        //int a = params[0];
-        //int c = params[1];
-        //int m = params[2];
-        //int x = params[3];
-        //int n = params[4];
+        /*int[] params = menu();
+        int a = params[0];
+        int c = params[1];
+        int m = params[2];
+        int x = params[3];
+        int n = params[4];
+        int e = params[5];*/
 
         //calcTab(a,c,m,x,n);
+
+        calcTab(8,11,13,3,10);
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
@@ -43,7 +46,6 @@ public class Main {
     /*
      * encoding value menu
      * TODO : - respect condition areFirst()->true
-     *        - respect condition checkA()->true
      */
     private static int[] menu() {
 
@@ -70,11 +72,22 @@ public class Main {
           a = askUser("Sélectionner la valeur de a");
         }
 
+        while (!checkA(m,a)){
+          printError("Erreur a invalide");
+          a = askUser("Sélectionner la valeur de a");
+        }
+
         int c = askUser("Sélectionner la valeur de c");
         while (c >= m || c <= 0){
           printError("Erreur a doit être 0 < c < m");
           c = askUser("Sélectionner la valeur de c");
         }
+
+        while (!areFirst(m,c)){
+          printError("Erreur a doit être premier avec m");
+          c = askUser("Sélectionner la valeur de c");
+        }
+
 
         int x = askUser("Sélectionner la valeur de X0");
         while (x >= m || x <= 0){
@@ -102,11 +115,33 @@ public class Main {
       double[] pi = piCalculation(m,n,false);
       double[] npi = piCalculation(m,n,true);
 
+      printTab(toString(tab), toString(ri), tabToPourcent(pi), toString(npi));
+    }
 
-        //CONVERT TO STRING
+    public static String[] toString(int[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        out[i]=Integer.toString(tab[i]);
+      }
+      return out;
+    }
 
+    public static String[] toString(double[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        out[i]= String.format("%.6f", tab[i]);;
+      }
+      return out;
+    }
 
-        //printTab(tabi, ri, pi, npi);
+    public static String[] tabToPourcent(double[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        Double temp = tab[i]*100;
+        out[i]= String.format("%.6f", temp);
+        out[i] = out[i] + "%" ;
+      }
+      return out;
     }
 
     public static int askUser(String message) {
@@ -129,12 +164,12 @@ public class Main {
      */
     public static void printTab(String[] tabi, String[] ri, String[] pi, String[] npi) {
 
-        System.out.println("-----------------------------------------------------------------------------");
-        System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
+        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.printf("%5s %15s %20s %15s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
-        System.out.println("-----------------------------------------------------------------------------");
-        for (int i=0; i < tabi.length ; i++ ) {
-            System.out.printf("%5s %15s %10s %10s %20s", tabi[i], ri[i], pi[i], npi[i], 0.0);
+        System.out.println("---------------------------------------------------------------------------------------");
+        for (int i=0; i < ri.length ; i++ ) {
+            System.out.printf("%5s %15s %20s %15s %20s", i+1 , ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
     }
@@ -204,7 +239,7 @@ public class Main {
     private static int[] realProbability(int tab[], int m) {
         int[] R = new int[m];
         int size = 1;
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < tab.length; i++) {
             if (tab[i] >= tab[i + 1]) {
                 R[size - 1]++;
                 size = 1;
