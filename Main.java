@@ -3,27 +3,27 @@ import java.util.Scanner;
 
 public class Main {
 
-  public static final String ANSI_RESET = "\u001B[0m";
-  public static final String ANSI_BLACK = "\u001B[30m";
-  public static final String ANSI_RED = "\u001B[31m";
-  public static final String ANSI_GREEN = "\u001B[32m";
-  public static final String ANSI_YELLOW = "\u001B[33m";
-  public static final String ANSI_BLUE = "\u001B[34m";
-  public static final String ANSI_PURPLE = "\u001B[35m";
-  public static final String ANSI_CYAN = "\u001B[36m";
-  public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
 
-  public static void printError(String message){
-    System.out.println( ANSI_RED + message + ANSI_RESET );
-  }
+    public static void printError(String message) {
+        System.out.println(ANSI_RED + message + ANSI_RESET);
+    }
 
-  public static void printBlueText(String message){
-    System.out.println( ANSI_BLUE + message + ANSI_RESET );
-  }
+    public static void printBlueText(String message) {
+        System.out.println(ANSI_BLUE + message + ANSI_RESET);
+    }
 
     public static void main(String[] args) {
-        int[] params = menu();
+        //int[] params = menu();
         //int a = params[0];
         //int c = params[1];
         //int m = params[2];
@@ -34,6 +34,8 @@ public class Main {
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
+        //affiche(realProbability(hubbDobell(8,11,13,3,10),13));
+        //affiche(hubbDobell(8,11,13,3,10));
         //System.out.println(areFirst(4,51));
         //System.out.println(checkA(104,31));
         //System.out.print(isPrime(37));
@@ -59,27 +61,27 @@ public class Main {
         int[] out = new int[6];
 
         int m = askUser("Sélectionner la valeur de m");
-        while (m <= 0){
-          printError("Erreur m doit être 0 < m");
-          m = askUser("Sélectionner la valeur de m");
+        while (m <= 0) {
+            printError("Erreur m doit être 0 < m");
+            m = askUser("Sélectionner la valeur de m");
         }
 
         int a = askUser("Sélectionner la valeur de a");
-        while (a >= m || a <= 0){
-          printError("Erreur a doit être 0 < a < m");
-          a = askUser("Sélectionner la valeur de a");
+        while (a >= m || a <= 0) {
+            printError("Erreur a doit être 0 < a < m");
+            a = askUser("Sélectionner la valeur de a");
         }
 
         int c = askUser("Sélectionner la valeur de c");
-        while (c >= m || c <= 0){
-          printError("Erreur a doit être 0 < c < m");
-          c = askUser("Sélectionner la valeur de c");
+        while (c >= m || c <= 0) {
+            printError("Erreur a doit être 0 < c < m");
+            c = askUser("Sélectionner la valeur de c");
         }
 
         int x = askUser("Sélectionner la valeur de X0");
-        while (x >= m || x <= 0){
-          printError("Erreur a doit être 0 < X0 < m");
-          x = askUser("Sélectionner la valeur de X0");
+        while (x >= m || x <= 0) {
+            printError("Erreur a doit être 0 < X0 < m");
+            x = askUser("Sélectionner la valeur de X0");
         }
 
         int n = askUser("Sélectionner la valeur de n (le nombre d'entier à générer)");
@@ -97,10 +99,22 @@ public class Main {
 
     public static void calcTab(int a, int c, int m, int x, int n) {
 
-      int[] tab = hubbDobell(a,c,m,x,n);
-      int[] ri = realProbability(tab,m);
-      double[] pi = piCalculation(m,n,false);
-      double[] npi = piCalculation(m,n,true);
+        //before grouping
+        int[] tab = hubbDobell(a, c, m, x, n);
+        double[] ri = realProbability(tab, m);
+        double[] pi = piCalculation(m, n, false);
+        double[] npi = piCalculation(m, n, true);
+
+        //after grouping
+
+        double res[]=compress(pi,npi,ri);
+        int index=(int)res[0];
+        double [] newRi = transform(ri,index,res[3]);
+        double[] newPi = transform(pi,index,res[1]);
+        double[] newnPi = transform(npi,index,res[2]);
+        // taille tableau index+1
+        // colonne Xi -> [i -> m]
+
 
 
         //CONVERT TO STRING
@@ -121,7 +135,6 @@ public class Main {
                 printError("Erreur - nombre invalide");
             }
         }
-      }
     }
 
 
@@ -134,7 +147,7 @@ public class Main {
         System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
         System.out.println("-----------------------------------------------------------------------------");
-        for (int i=0; i < tabi.length ; i++ ) {
+        for (int i = 0; i < tabi.length; i++) {
             System.out.printf("%5s %15s %10s %10s %20s", tabi[i], ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
@@ -171,6 +184,9 @@ public class Main {
      */
     private static boolean checkA(int m, int a) {
 
+        if(m%4==0 && (a-1)%4!=0){
+            return false;
+        }
         int max = m;
         for (int i = 2; i < max; i++) {
             if (m % i == 0) {
@@ -202,10 +218,10 @@ public class Main {
      * Ri calculation
      * The size of  the series will be between 1 et m
      */
-    private static int[] realProbability(int tab[], int m) {
-        int[] R = new int[m];
+    private static double[] realProbability(int tab[], int m) {
+        double[] R = new double[m];
         int size = 1;
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < tab.length; i++) {
             if (tab[i] >= tab[i + 1]) {
                 R[size - 1]++;
                 size = 1;
@@ -271,11 +287,11 @@ public class Main {
      * la somme des pi à cet endroit
      * la somme des npi à cet endroit
      */
-    private static double[] compress(double[] pi, double[] npi, int []rpi) {
+    private static double[] compress(double[] pi, double[] npi, double[] ri) {
         double sumNpi = 0;
         double sumPi = 0;
         double index = -1;
-        double sumRi=0;
+        double sumRi = 0;
         for (int i = 0; i < npi.length; i++) {
             if (npi[i] < 5.0) {
                 index = i;
@@ -283,7 +299,7 @@ public class Main {
             if (index != -1) {
                 sumNpi += npi[i];
                 sumPi += pi[i];
-                sumRi += rpi[i];
+                sumRi += ri[i];
             }
         }
         double[] res = new double[4];
@@ -293,19 +309,19 @@ public class Main {
         res[3] = sumRi;
         return res;
     }
+
     /*
-    * renvoie un tableau transformé
-    * tab à copier
-    * index où il y a un changement
-    * sum calculée dans compress
+     * renvoie un tableau transformé
+     * tab à copier
+     * index où il y a un changement
+     * sum calculée dans compress
      */
-    private static double[] transform(double []tab, double index, double sum){
-        int ind=(int)index;
-        double []res=new double[ind+1];
-        for(int i=0;i<ind;i++){
-            res[i]=tab[i];
+    private static double[] transform(double[] tab, int index, double sum) {
+        double[] res = new double[index + 1];
+        for (int i = 0; i < index; i++) {
+            res[i] = tab[i];
         }
-        res[ind]=sum;
+        res[index] = sum;
         return res;
     }
 
