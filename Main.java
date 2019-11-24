@@ -106,7 +106,6 @@ public class Main {
         double[] npi = piCalculation(m, n, true);
 
         //after grouping
-
         double res[]=compress(pi,npi,ri);
         int index=(int)res[0];
         double [] newRi = transform(ri,index,res[3]);
