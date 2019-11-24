@@ -23,14 +23,17 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //int[] params = menu();
-        //int a = params[0];
-        //int c = params[1];
-        //int m = params[2];
-        //int x = params[3];
-        //int n = params[4];
+        /*int[] params = menu();
+        int a = params[0];
+        int c = params[1];
+        int m = params[2];
+        int x = params[3];
+        int n = params[4];
+        int e = params[5];*/
 
         //calcTab(a,c,m,x,n);
+
+        calcTab(8,11,13,3,10);
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
@@ -45,7 +48,6 @@ public class Main {
     /*
      * encoding value menu
      * TODO : - respect condition areFirst()->true
-     *        - respect condition checkA()->true
      */
     private static int[] menu() {
 
@@ -72,11 +74,22 @@ public class Main {
             a = askUser("Sélectionner la valeur de a");
         }
 
+        while (!checkA(m,a)){
+          printError("Erreur a invalide");
+          a = askUser("Sélectionner la valeur de a");
+        }
+
         int c = askUser("Sélectionner la valeur de c");
         while (c >= m || c <= 0) {
             printError("Erreur a doit être 0 < c < m");
             c = askUser("Sélectionner la valeur de c");
         }
+
+        while (!areFirst(m,c)){
+          printError("Erreur a doit être premier avec m");
+          c = askUser("Sélectionner la valeur de c");
+        }
+
 
         int x = askUser("Sélectionner la valeur de X0");
         while (x >= m || x <= 0) {
@@ -105,6 +118,13 @@ public class Main {
         double[] pi = piCalculation(m, n, false);
         double[] npi = piCalculation(m, n, true);
 
+        String[] xi = new String[ri.length];
+        for(int i=0;i<xi.length;i++){
+          xi[i] = Integer.toString(i+1);
+        }
+
+        printTab(xi, toString(ri), tabToPourcent(pi), toString(npi));
+
         //after grouping
         double res[]=compress(pi,npi,ri);
         int index=(int)res[0];
@@ -114,12 +134,41 @@ public class Main {
         // taille tableau index+1
         // colonne Xi -> [i -> m]
 
+        String[] newxi = new String[index+1];
+        int i=0;
+        while(i<newxi.length-1){
+          newxi[i] = xi[i];
+          i++;
+        }
+          newxi[newxi.length-1] = "["+i+"->"+m+"]";
 
+      printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newnPi));
+    }
 
-        //CONVERT TO STRING
+    public static String[] toString(int[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        out[i]=Integer.toString(tab[i]);
+      }
+      return out;
+    }
 
+    public static String[] toString(double[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        out[i]= String.format("%.6f", tab[i]);;
+      }
+      return out;
+    }
 
-        //printTab(tabi, ri, pi, npi);
+    public static String[] tabToPourcent(double[] tab){
+      String[] out = new String[tab.length];
+      for(int i=0;i<tab.length;i++){
+        Double temp = tab[i]*100;
+        out[i]= String.format("%.6f", temp);
+        out[i] = out[i] + "%" ;
+      }
+      return out;
     }
 
     public static int askUser(String message) {
@@ -140,14 +189,14 @@ public class Main {
     /*
      * Display an array
      */
-    public static void printTab(String[] tabi, String[] ri, String[] pi, String[] npi) {
+    public static void printTab(String[]xi, String[] ri, String[] pi, String[] npi) {
 
-        System.out.println("-----------------------------------------------------------------------------");
-        System.out.printf("%5s %15s %10s %10s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
+        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.printf("%5s %15s %20s %15s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
-        System.out.println("-----------------------------------------------------------------------------");
-        for (int i = 0; i < tabi.length; i++) {
-            System.out.printf("%5s %15s %10s %10s %20s", tabi[i], ri[i], pi[i], npi[i], 0.0);
+        System.out.println("---------------------------------------------------------------------------------------");
+        for (int i=0; i < xi.length ; i++ ) {
+            System.out.printf("%5s %15s %20s %15s %20s", xi[i] , ri[i], pi[i], npi[i], 0.0);
             System.out.println();
         }
     }
