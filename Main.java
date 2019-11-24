@@ -47,7 +47,6 @@ public class Main {
 
     /*
      * encoding value menu
-     * TODO : - respect condition areFirst()->true
      */
     private static int[] menu() {
 
@@ -117,13 +116,14 @@ public class Main {
         double[] ri = realProbability(tab, m);
         double[] pi = piCalculation(m, n, false);
         double[] npi = piCalculation(m, n, true);
+        double[] khi = khiSquare(ri, npi);
 
         String[] xi = new String[ri.length];
         for (int i = 0; i < xi.length; i++) {
-            xi[i] = "   "+Integer.toString(i + 1)+"   ";
+            xi[i] = "   " + Integer.toString(i + 1) + "   ";
         }
 
-        printTab(xi, toString(ri), tabToPourcent(pi), toString(npi));
+        printTab(xi, toString(ri), tabToPourcent(pi), toString(npi), toString(khi));
         System.out.println('\n');
 
         //after grouping
@@ -141,7 +141,9 @@ public class Main {
         }
         newxi[newxi.length - 1] = "[" + (i + 1) + "->" + m + "]";
 
-        printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newnPi));
+
+        printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newnPi), toString(khi));
+
     }
 
     public static String[] toString(int[] tab) {
@@ -189,14 +191,16 @@ public class Main {
     /*
      * Display an array
      */
-    public static void printTab(String[] xi, String[] ri, String[] pi, String[] npi) {
+
+    public static void printTab(String[] xi, String[] ri, String[] pi, String[] npi, String[] khi) {
 
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.printf("%5s %15s %20s %15s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
         System.out.println();
         System.out.println("---------------------------------------------------------------------------------------");
+
         for (int i = 0; i < xi.length; i++) {
-            System.out.printf("%5s %15s %20s %15s %20s", xi[i], ri[i], pi[i], npi[i], 0.0);
+            System.out.printf("%5s %15s %20s %15s %20s", xi[i], ri[i], pi[i], npi[i], khi[i]);
             System.out.println();
         }
     }
@@ -318,7 +322,7 @@ public class Main {
     /*
      * calculation of all khiCube
      */
-    private static double[] khiSquare(int[] r, int[] nPi) {
+    private static double[] khiSquare(double[] r, double[] nPi) {
 
         double khi[] = new double[r.length];
 
