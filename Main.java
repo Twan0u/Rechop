@@ -68,32 +68,25 @@ public class Main {
 
         int m = askUser("Sélectionner la valeur de m");
         while (m <= 0) {
-            printError("Erreur m doit être 0 < m");
+            printError("Erreur m doit être 0 < m !");
             m = askUser("Sélectionner la valeur de m");
         }
 
         int a = askUser("Sélectionner la valeur de a");
-        while (a >= m || a <= 0) {
-            printError("Erreur a doit être 0 < a < m");
-            a = askUser("Sélectionner la valeur de a");
-        }
-
-        while (!checkA(m, a)) {
-            printError("Erreur a invalide");
+        while (a >= m || a <= 0 || !checkA(m, a)) {
+            if (a >= m || a <= 0) {
+                printError("Erreur a doit être 0 < a < m !");
+            }
             a = askUser("Sélectionner la valeur de a");
         }
 
         int c = askUser("Sélectionner la valeur de c");
-        while (c >= m || c <= 0) {
-            printError("Erreur a doit être 0 < c < m");
+        while (c >= m || c <= 0 || !areFirst(m, c)) {
+            if (c >= m || c <= 0) {
+                printError("Erreur a doit être 0 < c < m !");
+            }
             c = askUser("Sélectionner la valeur de c");
         }
-
-        while (!areFirst(m, c)) {
-            printError("Erreur a doit être premier avec m");
-            c = askUser("Sélectionner la valeur de c");
-        }
-
 
         int x = askUser("Sélectionner la valeur de X0");
         while (x >= m || x <= 0) {
@@ -150,7 +143,7 @@ public class Main {
 
         printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newNpi), toString(newKhi));
         System.out.println('\n');
-        System.out.println("Calcul du degré de liberté: v = "+(index+1)+"-1 = "+index);
+        System.out.println("Calcul du degré de liberté: v = " + (index + 1) + "-1 = " + index);
 
     }
 
@@ -190,7 +183,7 @@ public class Main {
             try {
                 return Integer.parseInt(scannerObj.nextLine());
             } catch (NumberFormatException e) {
-                printError("Erreur - nombre invalide");
+                printError("Erreur - nombre invalide !");
             }
         }
     }
@@ -227,6 +220,7 @@ public class Main {
         if (nb1 == 1) {
             return true;
         }
+        printError("Erreur c et m ne sont pas premier entre eux!");
         return false;
     }
 
@@ -245,6 +239,7 @@ public class Main {
     private static boolean checkA(int m, int a) {
 
         if (m % 4 == 0 && (a - 1) % 4 != 0) {
+            printError("Erreur m est multiple 4 mais pas (a-1)!");
             return false;
         }
         int max = m;
@@ -252,6 +247,7 @@ public class Main {
             if (m % i == 0) {
                 int temp = m / i;
                 if ((a - 1) % i != 0 && isPrime(i) || (a - 1) % temp != 0 && isPrime(temp)) {
+                    printError("Erreur il existe des facteurs premier de m qui ne sont pas multiple de (a-1)!");
                     return false;
                 }
             }
@@ -259,6 +255,15 @@ public class Main {
         }
 
         return true;
+    }
+
+    private static boolean isInTab(int[] tab, int nb, int index) {
+        for (int i = 0; i < index; i++) {
+            if (tab[i] == nb) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*
@@ -281,7 +286,7 @@ public class Main {
     private static double[] realProbability(int tab[], int m) {
         double[] R = new double[m];
         int size = 1;
-        for (int i = 0; i < tab.length-1; i++) {
+        for (int i = 0; i < tab.length - 1; i++) {
             if (tab[i] >= tab[i + 1]) {
                 R[size - 1]++;
                 size = 1;
@@ -335,10 +340,9 @@ public class Main {
         double khi[] = new double[r.length];
 
         for (int i = 0; i < r.length; i++) {
-            if(r[i]<1){
-                khi[i]=nPi[i];
-            }
-            else{
+            if (r[i] < 1) {
+                khi[i] = nPi[i];
+            } else {
                 khi[i] = Math.pow(r[i] - nPi[i], 2) / nPi[i];
             }
         }
