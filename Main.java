@@ -33,7 +33,12 @@ public class Main {
 
         //calcTab(a,c,m,x,n);
 
-        calcTab(8, 11, 13, 3, 10);
+
+        calcTab(63, 57, 32767, 356, 4650);
+
+        //System.out.print(hubbDobell(63,57,32767,356,4651).length);
+        //affiche(hubbDobell(63,57,32767,356,4650));
+
         //printTab(null);
         //affiche(process(hubbDobell(15,11,7,3)));
         //affiche(piCalculation(6,10,true));
@@ -131,7 +136,8 @@ public class Main {
         int index = (int) res[0];
         double[] newRi = transform(ri, index, res[3]);
         double[] newPi = transform(pi, index, res[1]);
-        double[] newnPi = transform(npi, index, res[2]);
+        double[] newNpi = transform(npi, index, res[2]);
+        double[] newKhi = khiSquare(newRi, newNpi);
 
         String[] newxi = new String[index + 1];
         int i = 0;
@@ -142,7 +148,9 @@ public class Main {
         newxi[newxi.length - 1] = "[" + (i + 1) + "->" + m + "]";
 
 
-        printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newnPi), toString(khi));
+        printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newNpi), toString(newKhi));
+        System.out.println('\n');
+        System.out.println("Calcul du degré de liberté: v = "+(index+1)+"-1 = "+index);
 
     }
 
@@ -273,14 +281,14 @@ public class Main {
     private static double[] realProbability(int tab[], int m) {
         double[] R = new double[m];
         int size = 1;
-        for (int i = 0; i < tab.length; i++) {
+        for (int i = 0; i < tab.length-1; i++) {
             if (tab[i] >= tab[i + 1]) {
                 R[size - 1]++;
                 size = 1;
                 i++;
             } else {
                 size++;
-                if (i + 1 == tab.length - 1) {
+                if ((i + 1) > tab.length - 1) {
                     R[size - 1]++;
                 }
             }
@@ -327,7 +335,12 @@ public class Main {
         double khi[] = new double[r.length];
 
         for (int i = 0; i < r.length; i++) {
-            khi[i] = Math.pow(r[i] - nPi[i], 2) / nPi[i];
+            if(r[i]<1){
+                khi[i]=nPi[i];
+            }
+            else{
+                khi[i] = Math.pow(r[i] - nPi[i], 2) / nPi[i];
+            }
         }
 
         return khi;
@@ -380,7 +393,7 @@ public class Main {
     /*
      * inutile juste pour les tests
      */
-    private static void affiche(double tab[]) {
+    private static void affiche(int tab[]) {
         for (int i = 0; i < tab.length; i++) {
             System.out.println(tab[i]);
         }
