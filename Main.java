@@ -35,6 +35,7 @@ public class Main {
 
 
         calcTab(63, 57, 32767, 356, 4650);
+        //calcTab(8,11,13,3,10);
 
         //System.out.print(hubbDobell(63,57,32767,356,4651).length);
         //affiche(hubbDobell(63,57,32767,356,4650));
@@ -134,7 +135,7 @@ public class Main {
 
         String[] newxi = new String[index + 1];
         int i = 0;
-        while (i < newxi.length - 1) {
+        while (i < newxi.length-1) {
             newxi[i] = xi[i];
             i++;
         }
@@ -159,7 +160,7 @@ public class Main {
         String[] out = new String[tab.length];
         for (int i = 0; i < tab.length; i++) {
             out[i] = String.format("%.6f", tab[i]);
-            ;
+
         }
         return out;
     }
@@ -359,7 +360,7 @@ public class Main {
     private static double[] compress(double[] pi, double[] npi, double[] ri) {
         double sumNpi = 0;
         double sumPi = 0;
-        double index = -1;
+        int index = -1;
         double sumRi = 0;
         for (int i = 0; i < npi.length; i++) {
             if (npi[i] < 5.0) {
@@ -372,6 +373,13 @@ public class Main {
             }
         }
         double[] res = new double[4];
+        // add error margin od 0.000001
+        if(sumNpi<5.0-(0.000001)){
+            sumNpi+=npi[index-1];
+            sumPi+=pi[index-1];
+            sumRi+=ri[index-1];
+            index--;
+        }
         res[0] = index;
         res[1] = sumPi;
         res[2] = sumNpi;
