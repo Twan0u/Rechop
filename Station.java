@@ -16,7 +16,7 @@ public class Station {
         int tempsOccupationNormale = 0;
         int tempsInoccupation = 0;
         int nbClientDevenuOrdinaire = 0;
-        /*int[] arriveeNormale=new int[tempsSimulation];
+        int[] arriveeNormale=new int[tempsSimulation];
         int[] arriveePrioritaire=new int[tempsSimulation];
         for(int i=0;i<tempsSimulation;i++){
             int nA = generateArrival();
@@ -29,7 +29,7 @@ public class Station {
                 }
                 nA--;
             }
-        }*/
+        }
         while (S <= Smax) {
             fileNormale = 0;
             filePrioritaire = 0;
@@ -42,7 +42,7 @@ public class Station {
             int[] tabDs = new int[S];
             int t = 1;
             while (t <= tempsSimulation) {
-                int nA = generateArrival();
+                /*int nA = generateArrival();
                 while (nA > 0) {
                     if (isPrioritaire()) {
                         if (filePrioritaire < 6) {
@@ -55,8 +55,8 @@ public class Station {
                         fileNormale++;
                     }
                     nA--;
-                }
-                /*fileNormale+=arriveeNormale[t-1];
+                }*/
+                fileNormale+=arriveeNormale[t-1];
                 int nAPrioritaire=arriveePrioritaire[t-1];
                 while(nAPrioritaire>0){
                     if(filePrioritaire<6){
@@ -67,7 +67,7 @@ public class Station {
                         fileNormale++;
                     }
                     nAPrioritaire--;
-                }*/
+                }
                 int i = 0;
                 while (i < S) {
                     if (tabDs[i] == 0) {
@@ -114,13 +114,19 @@ public class Station {
             tabCout[S-Smin]=(nbClientDevenuOrdinaire*50.0)+((1/60.0)*(25.0*(cumulFileNormale+tempsOccupationNormale)+40.0*(cumulFilePrioritaire+tempsOccupationPrioritaire)+35.0*(tempsOccupationNormale+tempsOccupationPrioritaire)+20.0*tempsInoccupation));
             S++;
         }
-        /*for(int i=0;i<tabCout.length;i++){
-            System.out.println(tabCout[i]);
-        }
-        System.out.println(tabCout.length);*/
-        double[] res=findMin(tabCout);
+        String leftAlignFormat = "| %-18s | %-25s |%n";
 
-        System.out.println("Le nombre de station optimal est "+(res[0]+Smin)+" avec un coût minimum de "+res[1]+" euros.");
+        System.out.format("+--------------------+---------------------------+%n");
+        System.out.format("| Nombre de stations |           Coût            |%n");
+        System.out.format("+--------------------+---------------------------+%n");
+        for (int i = 0; i < tabCout.length; i++) {
+            System.out.format(leftAlignFormat, Integer.toString((int)(i+Smin)), String.format("%.2f",tabCout[i])+" euros.");
+        }
+        System.out.format("+--------------------+---------------------------+%n");
+
+        double[] res=findMin(tabCout);
+        System.out.println('\n');
+        System.out.println("Le nombre de station optimal est "+ ((int)res[0]+Smin)+" avec un coût minimum de "+String.format("%.2f",res[1])+" euros");
     }
 
     /*
