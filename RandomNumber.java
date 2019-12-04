@@ -24,15 +24,6 @@ public class RandomNumber {
 
     public static void menu() {
 
-        printBlueText("      _____              _                   ");
-        printBlueText("     |  __ \\            | |                  ");
-        printBlueText("     | |__) | ___   ___ | |__    ___   _ __  ");
-        printBlueText("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
-        printBlueText("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
-        printBlueText("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
-        printBlueText("                                      | |    ");
-        printBlueText("                                      |_|    ");
-
         int m = askUser("Sélectionner la valeur de m");
         while (m <= 0) {
             printError("Erreur m doit être 0 < m !");
