@@ -30,35 +30,35 @@ public class RandomNumber {
 
     public static void menu() {
 
-        int m = askUser("Sélectionner la valeur de m");
+        int m = askUser("Sélectionnez la valeur de m");
         while (m <= 0) {
-            printError("Erreur m doit être 0 < m !");
-            m = askUser("Sélectionner la valeur de m");
+            printError("Erreur : m doit être 0 < m !");
+            m = askUser("Sélectionnez la valeur de m");
         }
 
-        int a = askUser("Sélectionner la valeur de a");
+        int a = askUser("Sélectionnez la valeur de a");
         while (a >= m || a <= 0) {
             if (a >= m || a <= 0) {
-                printError("Erreur a doit être 0 < a < m !");
+                printError("Erreur : a doit être 0 < a < m !");
             }
-            a = askUser("Sélectionner la valeur de a");
+            a = askUser("Sélectionnez la valeur de a");
         }
 
-        int c = askUser("Sélectionner la valeur de c");
+        int c = askUser("Sélectionnez la valeur de c");
         while (c >= m || c <= 0) {
             if (c >= m || c <= 0) {
-                printError("Erreur a doit être 0 < c < m !");
+                printError("Erreur : a doit être 0 < c < m !");
             }
-            c = askUser("Sélectionner la valeur de c");
+            c = askUser("Sélectionnez la valeur de c");
         }
 
-        int x = askUser("Sélectionner la valeur de X0");
+        int x = askUser("Sélectionnez la valeur de X0");
         while (x >= m || x <= 0) {
-            printError("Erreur a doit être 0 < X0 < m");
-            x = askUser("Sélectionner la valeur de X0");
+            printError("Erreur : a doit être 0 < X0 < m");
+            x = askUser("Sélectionnez la valeur de X0");
         }
 
-        int e = askUser("Sélectionner la valeur du degré d'erreurs");
+        int e = askUser("Sélectionnez la valeur du degré d'erreur");
 
         calcTab(a, c, m, x);
     }
@@ -82,7 +82,7 @@ public class RandomNumber {
         System.out.println('\n');
 
         //after grouping
-        double res[] = compress(pi, npi, ri);
+        double[] res = compress(pi, npi, ri);
         int index = (int) res[0];
         double[] newRi = transform(ri, index, res[3]);
         double[] newPi = transform(pi, index, res[1]);
@@ -185,7 +185,7 @@ public class RandomNumber {
      * Ri calculation
      * The size of  the series will be between 1 and period
      */
-    private static double[] realProbability(int tab[], int m) {
+    private static double[] realProbability(int[] tab, int m) {
         double[] R = new double[m];
         int size = 1;
         for (int i = 0; i < tab.length - 1; i++) {
@@ -206,7 +206,7 @@ public class RandomNumber {
     /*
      * calculation of pi
      */
-    private static double espectedProbability(int i) {
+    private static double expectedProbability(int i) {
         double res = 1;
         int j = i + 1;
 
@@ -222,9 +222,9 @@ public class RandomNumber {
      * Give the array of n*Pi if needN is true
      */
     private static double[] piCalculation(int n, boolean needN) {
-        double tab[] = new double[n];
+        double[] tab = new double[n];
         for (int i = 0; i < n; i++) {
-            tab[i] = espectedProbability(i + 1);
+            tab[i] = expectedProbability(i + 1);
             if (needN) {
                 tab[i] *= n;
             }
@@ -236,7 +236,7 @@ public class RandomNumber {
      * calculation of all khiCube
      */
     private static double[] khiSquare(double[] r, double[] nPi) {
-        double khi[] = new double[r.length];
+        double[] khi = new double[r.length];
 
         for (int i = 0; i < r.length; i++) {
             if (r[i] < 1) {
@@ -292,9 +292,7 @@ public class RandomNumber {
      */
     private static double[] transform(double[] tab, int index, double sum) {
         double[] res = new double[index + 1];
-        for (int i = 0; i < index; i++) {
-            res[i] = tab[i];
-        }
+        if (index >= 0) System.arraycopy(tab, 0, res, 0, index);
         res[index] = sum;
         return res;
     }
