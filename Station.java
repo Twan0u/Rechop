@@ -3,21 +3,32 @@ import java.util.Random;
 
 public class Station {
 
-    public static ArrayList<Personne> generateSimulation(int tempsSimulation, int Smin, int Smax) {
+    public static ArrayList<Personne> generationSimulation(int tempsSimulation, int Smin, int Smax, double poisson, int[] tab) {
         ArrayList<Personne> simulation = new ArrayList<Personne>();
         int nbPrioritaire = 0;
         int nbNormal = 0;
         double moyenneDuree = 0;
         for (int i = 0; i < tempsSimulation; i++) {
-            int nA = generateArrival();
+            int nA = generationArrivee(poisson);
             while (nA > 0) {
-                if (isPrioritaire()) {
-                    int x = generateDuration();
+                if (estPrioritaire()) {
+                    int x = 0;
+                    if (tab == null) {
+                        x = generationDureeService();
+                    } else {
+                        x = generationDureeServiceAdvanced(tab);
+                    }
+
                     moyenneDuree += x;
                     simulation.add(new Personne(true, i, x));
                     nbPrioritaire++;
                 } else {
-                    int y = generateDuration();
+                    int y = 0;
+                    if (tab == null) {
+                        y = generationDureeService();
+                    } else {
+                        y = generationDureeServiceAdvanced(tab);
+                    }
                     moyenneDuree += y;
                     simulation.add(new Personne(false, i, y));
                     nbNormal++;
@@ -33,7 +44,7 @@ public class Station {
         System.out.println("Le nombre de stations maximales est " + Smax);
         System.out.println("Le nombre de clients prioritaires est de " + nbPrioritaire + " clients");
         System.out.println("Le nombre de clients normaux est de " + nbNormal + " clients");
-        System.out.println("Le nombre de clients total est de " + (nbNormal + nbPrioritaire) + " clients");
+        System.out.println("Le nombre total de clients est de " + (nbNormal + nbPrioritaire) + " clients");
         System.out.println("La moyenne de la durée des services est de " + (String.format("%.2f", moyenneDuree / simulation.size())) + " minutes");
         System.out.println();
         return simulation;
@@ -43,7 +54,7 @@ public class Station {
     /*
      * calculation of S optimum and cost
      */
-    public static void calculate(int Smin, int Smax, int tempsSimulation, ArrayList<Personne> simulation, int debutDetail, int finDetail, int SDetail) {
+    public static void calcule(int Smin, int Smax, int tempsSimulation, ArrayList<Personne> simulation, int debutDetail, int finDetail, int SDetail, double prixOccupationStation, double prixInoccupationStation, double prixClientDevenuOrdinaire, double prixClientPrioritaire, double prixClientOrdinaire) {
         int S = Smin;
         double[] tabCout = new double[Smax - Smin + 1];
         int cumulFileNormale = 0;
@@ -93,7 +104,7 @@ public class Station {
                     System.out.println("Détail en t=" + t + " minute(s) au début");
                     System.out.println();
                     System.out.println("Il y a exactement " + filePrioritaire.size() + " personne(s) arrivée dans la file prioritaire et " + fileNormale.size() + " personne(s) arrivée dans la file normale");
-                    displayDetail(tabDs, tabClient, tabTempsTotal);
+                    afficherDetail(tabDs, tabClient, tabTempsTotal);
                     System.out.println();
                 }
                 int i = 0;
@@ -145,19 +156,19 @@ public class Station {
                 cumulFilePrioritaire += filePrioritaire.size();
                 if (S == SDetail && t > (debutDetail - 1) && t < (finDetail + 1)) {
                     System.out.println("Détail en t=" + t + " minute(s) à la fin");
-                    displayDetail(tabDs, tabClient, tabTempsTotal);
+                    afficherDetail(tabDs, tabClient, tabTempsTotal);
                     System.out.println("Il y a exactement " + filePrioritaire.size() + " personne(s) attendant dans la file prioritaire et " + fileNormale.size() + " personne(s) attendant dans la file normale");
                     System.out.println('\n');
                 }
                 t++;
             }
-            tabCout[S - Smin] = (nbClientDevenuOrdinaire * 50.0) + ((1 / 60.0) * (25.0 * (cumulFileNormale + tempsOccupationNormale) + 40.0 * (cumulFilePrioritaire + tempsOccupationPrioritaire) + 35.0 * (tempsOccupationNormale + tempsOccupationPrioritaire) + 20.0 * tempsInoccupation));
+            tabCout[S - Smin] = (nbClientDevenuOrdinaire * prixClientDevenuOrdinaire) + ((1 / 60.0) * (prixClientOrdinaire * (cumulFileNormale + tempsOccupationNormale) + prixClientPrioritaire * (cumulFilePrioritaire + tempsOccupationPrioritaire) + prixOccupationStation * (tempsOccupationNormale + tempsOccupationPrioritaire) + prixInoccupationStation * tempsInoccupation));
             S++;
         }
-        displayCost(tabCout, Smin);
+        afficherCouts(tabCout, Smin);
     }
 
-    private static void displayCost(double[] tabCout, int Smin) {
+    private static void afficherCouts(double[] tabCout, int Smin) {
 
         String leftAlignFormat = "| %-18s | %-25s |%n";
         System.out.format("+--------------------+---------------------------+%n");
@@ -168,13 +179,13 @@ public class Station {
         }
         System.out.format("+--------------------+---------------------------+%n");
 
-        double[] res = findMin(tabCout);
+        double[] res = min(tabCout);
         System.out.println();
         System.out.println("Le nombre de station optimal est " + ((int) res[0] + Smin) + " avec un coût minimum de " + String.format("%.2f", res[1]) + " euros");
         System.out.println();
     }
 
-    private static void displayDetail(int[] tabDs, String[] tabClient, int[] tabTempsTotal) {
+    private static void afficherDetail(int[] tabDs, String[] tabClient, int[] tabTempsTotal) {
 
         String leftAlignFormat = "| %-12s | %-16s | %-13s | %-12s|%n";
         System.out.format("+--------------+------------------+---------------+-------------+%n");
@@ -189,8 +200,8 @@ public class Station {
     /*
      * generate time of services
      */
-    private static int generateDuration() {
-        int random = generateRandomIntIntRange(1, 58);
+    private static int generationDureeService() {
+        int random = generationEntierAleatoire(1, 58);
         if (random < 19) {
             return 1;
         } else if (random > 18 && random < 40) {
@@ -206,32 +217,57 @@ public class Station {
         }
     }
 
+    private static int generationDureeServiceAdvanced(int[] tab) {
+        int random = generationEntierAleatoire(1, 10000);
+        if (random < tab[0] + 1) {
+            return 1;
+        } else if (random > tab[0] && random < (sumTab(tab, 1) + 1)) {
+            return 2;
+        } else if (random > sumTab(tab, 1) && random < (sumTab(tab, 2) + 1)) {
+            return 3;
+        } else if (random > sumTab(tab, 2) && random < (sumTab(tab, 3) + 1)) {
+            return 4;
+        } else if (random > sumTab(tab, 3) && random < (sumTab(tab, 4) + 1)) {
+            return 5;
+        } else {
+            return 6;
+        }
+    }
+
+    private static int sumTab(int[] tab, int index) {
+        int sum = 0;
+        for (int i = 0; i < index + 1; i++) {
+            sum += tab[i];
+        }
+        return sum;
+    }
+
     /*
      * generate number of arrivals 0-5
      */
-    private static int generateArrival() {
-        int[] fish = fisher(1.8);
-        int random = generateRandomIntIntRange(1, 10000);
-        if (random < 1653) {
+    private static int generationArrivee(double parameter) {
+        int[] fish = poisson(parameter);
+        int random = generationEntierAleatoire(1, 10000);
+        if (random < fish[0] + 1) {
             return 0;
-        } else if (random > 1652 && random < 4628) {
+        } else if (random > fish[0] && random < (sumTab(fish, 1) + 1)) {
             return 1;
-        } else if (random > 4627 && random < 7305) {
+        } else if (random > sumTab(fish, 1) && random < (sumTab(fish, 2) + 1)) {
             return 2;
-        } else if (random > 7304 && random < 8911) {
+        } else if (random > sumTab(fish, 2) && random < (sumTab(fish, 3) + 1)) {
             return 3;
-        } else if (random > 8910 && random < 9634) {
+        } else if (random > sumTab(fish, 3) && random < (sumTab(fish, 4) + 1)) {
             return 4;
         } else {
             return 5;
         }
     }
 
-    public static int[] fisher(double parameter) {
+    public static int[] poisson(double parametre) {
         int[] res = new int[6];
-        double term = Math.pow(Math.E, -1.0 * parameter);
+        double term = Math.pow(Math.E, -1.0 * parametre);
         for (int i = 0; i < 6; i++) {
-            res[i] = (int) (((Math.pow(parameter, i) * term) / fact(i)) * 10000);
+            res[i] = (int) (((Math.pow(parametre, i) * term) / fact(i)) * 10000);
         }
         return res;
     }
@@ -248,13 +284,13 @@ public class Station {
     /*
      * generate a random number between min et max
      */
-    private static int generateRandomIntIntRange(int min, int max) {
+    private static int generationEntierAleatoire(int min, int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
 
-    private static boolean isPrioritaire() {
-        int random = generateRandomIntIntRange(1, 10);
+    private static boolean estPrioritaire() {
+        int random = generationEntierAleatoire(1, 10);
         if (random < 4) {
             return true;
         } else {
@@ -265,7 +301,7 @@ public class Station {
     /*
      * Renvoie l'index et la valeur de la plus petite valeur du tableau
      */
-    private static double[] findMin(double[] tab) {
+    private static double[] min(double[] tab) {
         double min = Double.POSITIVE_INFINITY;
         double index = -1.0;
         for (int i = 0; i < tab.length; i++) {
