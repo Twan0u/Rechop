@@ -1,71 +1,63 @@
+/*
+* @author : Antoine Lambert, Antoine Dumont
+* @version 2.0
+*
+*
+*/
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class RandomNumber {
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
+    private static UserI gui = new Console();
 
 
-    private static void printError(String message) {
-        System.out.println(ANSI_RED + message + ANSI_RESET);
-    }
-
-    private static void printBlueText(String message) {
-        System.out.println(ANSI_BLUE + message + ANSI_RESET);
-    }
-
+    /* première fonciton du programme
+    *
+    */
     public static void menu() {
 
-        printBlueText("      _____              _                   ");
-        printBlueText("     |  __ \\            | |                  ");
-        printBlueText("     | |__) | ___   ___ | |__    ___   _ __  ");
-        printBlueText("     |  _  / / _ \\ / __|| '_ \\  / _ \\ | '_ \\ ");
-        printBlueText("     | | \\ \\|  __/| (__ | | | || (_) || |_) |");
-        printBlueText("     |_|  \\_\\\\___| \\___||_| |_| \\___/ | .__/ ");
-        printBlueText("                                      | |    ");
-        printBlueText("                                      |_|    ");
 
-        int m = askUser("Sélectionner la valeur de m");
+       gui.start();
+
+        int m =   gui.askUser("Sélectionner la valeur de m");
         while (m <= 0) {
-            printError("Erreur m doit être 0 < m !");
-            m = askUser("Sélectionner la valeur de m");
+              gui.printError("Erreur m doit être 0 < m !");
+            m =   gui.askUser("Sélectionner la valeur de m");
         }
 
-        int a = askUser("Sélectionner la valeur de a");
+        int a =   gui.askUser("Sélectionner la valeur de a");
         while (a >= m || a <= 0) {
             if (a >= m || a <= 0) {
-                printError("Erreur a doit être 0 < a < m !");
+                  gui.printError("Erreur a doit être 0 < a < m !");
             }
-            a = askUser("Sélectionner la valeur de a");
+            a =   gui.askUser("Sélectionner la valeur de a");
         }
 
-        int c = askUser("Sélectionner la valeur de c");
+        int c =   gui.askUser("Sélectionner la valeur de c");
         while (c >= m || c <= 0) {
             if (c >= m || c <= 0) {
-                printError("Erreur a doit être 0 < c < m !");
+                  gui.printError("Erreur a doit être 0 < c < m !");
             }
-            c = askUser("Sélectionner la valeur de c");
+            c =   gui.askUser("Sélectionner la valeur de c");
         }
 
-        int x = askUser("Sélectionner la valeur de X0");
+        int x =   gui.askUser("Sélectionner la valeur de X0");
         while (x >= m || x <= 0) {
-            printError("Erreur a doit être 0 < X0 < m");
-            x = askUser("Sélectionner la valeur de X0");
+              gui.printError("Erreur a doit être 0 < X0 < m");
+            x =   gui.askUser("Sélectionner la valeur de X0");
         }
 
-        int e = askUser("Sélectionner la valeur du degré d'erreurs");
+        int e =   gui.askUser("Sélectionner la valeur du degré d'erreurs");
 
         calcTab(a, c, m, x);
     }
-
+    /*  Calcule le tableau des valeurs pi, ... et l'affiche
+    *   @param a valeur de a
+    *   @param c valeur de c
+    *   @param m valeur de m
+    *   @param x valeur de x
+    */
     private static void calcTab(int a, int c, int m, int x) {
 
         //before grouping
@@ -81,7 +73,7 @@ public class RandomNumber {
             xi[i] = "   " + Integer.toString(i + 1) + "   ";
         }
 
-        printTab(xi, toString(ri), tabToPourcent(pi), toString(npi), toString(khi));
+        gui.printTab(xi, toString(ri), tabToPourcent(pi), toString(npi), toString(khi));
         System.out.println('\n');
 
         //after grouping
@@ -101,7 +93,9 @@ public class RandomNumber {
         newxi[newxi.length - 1] = "[" + (i + 1) + "->" + period + "]";
 
 
-        printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newNpi), toString(newKhi));
+        gui.printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newNpi), toString(newKhi));
+
+
         System.out.println('\n');
         if (newNpi.length == 1) {
             System.out.println("La période est beaucoup trop petite et la contrainte n'est jamais respectée, v = -1");
@@ -129,34 +123,10 @@ public class RandomNumber {
         return out;
     }
 
-    private static int askUser(String message) {
-        while (true) {
-            Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
-            System.out.println(message);
-            System.out.print(">");
-            try {
-                return Integer.parseInt(scannerObj.nextLine());
-            } catch (NumberFormatException e) {
-                printError("Erreur - nombre invalide !");
-            }
-        }
-    }
 
 
-    /*
-     * Display an array
-     */
-    private static void printTab(String[] xi, String[] ri, String[] pi, String[] npi, String[] khi) {
 
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.printf("%5s %15s %20s %15s       %20s", "Xi", "ri", "pi", "n.pi", "(ri-n.pi)^2/(n.pi)");
-        System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------");
-        for (int i = 0; i < xi.length; i++) {
-            System.out.printf("%5s %15s %20s %15s %20s", xi[i], ri[i], pi[i], npi[i], khi[i]);
-            System.out.println();
-        }
-    }
+
 
 
     /*
@@ -302,4 +272,3 @@ public class RandomNumber {
         return res;
     }
 }
-
