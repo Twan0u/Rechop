@@ -204,6 +204,10 @@ public class Main {
             }
         }
     }
+    /** print a message and ask the user for a response until he respond with a valid answer
+     * @param message message to display asking for a response
+     * @return response of the user
+     */
     private static double askUser2(String message) {
         while (true) {
             Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
