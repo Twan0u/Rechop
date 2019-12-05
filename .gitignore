@@ -1,3 +1,5 @@
 *.class
+/Rechop.iml
+/.idea/
 .idea/*
 *.txt
