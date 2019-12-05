@@ -1,3 +1,8 @@
+/** part of the program responsable of the station traitement and simulation
+* @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
+* @version : %G%
+*/
+
 import java.util.ArrayList;
 import java.util.Random;
 
