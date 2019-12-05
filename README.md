@@ -1,2 +1,2 @@
 # Rechop
-rechop work
+Projet Rechop 

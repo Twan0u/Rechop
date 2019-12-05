@@ -1,5 +1,11 @@
+/** generation of a serie of random numbers 
+* @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
+* @version : %G%
+*/
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class RandomNumber {
 
@@ -293,4 +299,3 @@ public class RandomNumber {
         return res;
     }
 }
-

@@ -1,8 +1,19 @@
+/** class used to launch the program and display some choices
+* <b> works only in console </b>
+* <i> colors of the terminal may cause some readability problems </i>
+* @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
+* @version : %G%
+*/
+
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
+/** Colors that can be used inside of an System.out.print
+*/
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BLACK = "\u001B[30m";
@@ -14,8 +25,11 @@ public class Main {
     private static final String ANSI_CYAN = "\u001B[36m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    public static void main(String[] args) {
 
+    /** Main method used to launch the program
+    *@param args NOT USED
+    */
+    public static void main(String[] args) {
 
         printBlueText("      _____              _                   ");
         printBlueText("     |  __ \\            | |                  ");
@@ -29,6 +43,9 @@ public class Main {
         menu();
     }
 
+    /** Menu of the program used to select wich mode run the simulations
+    *
+    */
     private static void menu() {
         System.out.println();
         printGreenText("MENU");
@@ -55,13 +72,16 @@ public class Main {
             case 4:
                 return;
             default:
-                System.out.println("Veuillez choisir une commande disponible.");
+                printError("Veuillez choisir une commande disponible.");
                 menu();
                 break;
         }
 
     }
 
+    /** Menu used to select the stations simulation related options
+    *
+    */
     public static void menuStation() {
         ArrayList<Personne> simulation = new ArrayList<Personne>();
         int tempsSimulation = 0;
@@ -79,6 +99,9 @@ public class Main {
 
     }
 
+    /** submenu used in the station part of the program
+    *
+    */
     private static void sousMenu(ArrayList<Personne> simulation, int Smin, int Smax, int tempsSimulation) {
         printGreenText("Appuyez sur 1 si vous désirez voir le détail entre 2 instants.");
         printGreenText("Appuyez sur 2 pour revenir au menu principal.");
@@ -98,24 +121,37 @@ public class Main {
                 menu();
                 break;
             default:
-                System.out.println("Veuillez choisir une commande disponible.");
+                printError("Veuillez choisir une commande disponible.");
                 sousMenu(simulation, Smin, Smax, tempsSimulation);
         }
 
     }
 
-    private static void printError(String message) {
-        System.out.println(ANSI_RED + message + ANSI_RESET);
+    /** print in console a red text
+    * @param txt text to display in red
+    */
+    private static void printError(String txt) {
+        System.out.println(ANSI_RED + txt + ANSI_RESET);
     }
 
-    private static void printBlueText(String message) {
-        System.out.println(ANSI_BLUE + message + ANSI_RESET);
+    /** print in console a red text
+    * @param txt text to display in red
+    */
+    private static void printBlueText(String txt) {
+        System.out.println(ANSI_BLUE + txt + ANSI_RESET);
     }
 
-    private static void printGreenText(String message) {
-        System.out.println(ANSI_GREEN + message + ANSI_RESET);
+    /** print in console a red text
+    * @param txt text to display in red
+    */
+    private static void printGreenText(String txt) {
+        System.out.println(ANSI_GREEN + txt + ANSI_RESET);
     }
 
+    /** print a message and ask the user for a response until he respond with a valid answer
+    * @param message message to display asking for a response
+    * @return response of the user
+    */
     private static int askUser(String message) {
         while (true) {
             Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
