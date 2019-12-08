@@ -1,0 +1,89 @@
+// Antoine Dumont, Antoine Herrent, Antoine Lambert
+
+---* Calcule
+S=Smin
+do while (S<=Smax)
+FileNormale=0
+FilePrioritaire=0
+CumulFileNormale=0
+CumulFilePrioritaire=0
+TempsOccupationPrioritaire=0
+TempsOccupationNormale=0
+TempsInoccupation=0
+NbClientDevenuOrdinaire=0
+module(InitTabDs;;)
+module(InitTabClient;;)
+t=1
+do while (t<=tempsSimulation)
+GenerateArrival->NA
+do while (NA>0)
+if (isPrioritaire)
+if (isPrioritaire<6)
+FilePrioritaire++
+else
+NbClientDevenuOrdinaire++
+FileNormale++
+endif
+else
+FileNormale++
+endif
+I = 1
+do while (I<=S)
+if (TabDs[I]==0)
+if (I==1)
+if (FilePrioritaire!=0)
+FilePrioritaire--
+TabClient[I]="Prioritaire"
+TabDs[I]=GenerateDuration
+TabDs[I]--
+TempsOccupationPrioritaire+
+else
+TempsInoccupation++
+endif
+else
+if (FileNormal!=0)
+FileNormale--
+TabClient[I]="Normal"
+TabDs[I]=GenerateDuration
+TabDs[I]--
+TempsOccupationNormale++
+else
+if (FilePrioritaire!=0)
+FilePrioritaire--
+TabClient[I]="Prioritaire"
+TabDs[I]=GenerateDuration
+TabDs[I]--
+TempsOccupationPrioritaire+
+else
+TempsInoccupation++
+endif
+endif
+endif
+else
+TabDs[I]--
+if (I==1)
+TempsOccupationPrioritaire++
+else
+TempsOccupationNormale++
+endif
+I++
+endif
+enddo
+enddo
+CumulFileNormale+=FileNormal
+CumulFilePrioritaire+=FilePrioritaire
+t++
+enddo
+TabCoût[S-Smin] =(NbClientDevenuOrdinaire*50)
++ ((25/60) *(CumulFileNormale + TempsOccupationNormale)
++ ((40/60)* CumulFilePrioritaire + TempsOccupationPrioritaire)
++((35/60)* (TempsOccuptionNormale + TempsOccupationPrioritaire)
++((20/60)*Temps Inoccupation)
+S++
+module(RechercheCoûtMin;;)
+enddo
+
+// En réalité on va générer une simulation avec des arrivées et un temps de services pour chaque client dans une structure de donnée. Dans le generateDuration et generateArrival, on récupèrera les valeurs de la simulation.
+
+------
+
