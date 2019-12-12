@@ -352,7 +352,7 @@ public class Station {
      */
     private static int min(double[] tab) {
         double min = Double.POSITIVE_INFINITY;
-        double index = -1.0;
+        int index = -1;
         for (int i = 0; i < tab.length; i++) {
             if (tab[i] < min) {
                 min = tab[i];
