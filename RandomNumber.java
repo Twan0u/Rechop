@@ -1,7 +1,9 @@
-/** generation of a serie of random numbers
-* @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
-* @version : %G%
-*/
+/**
+ * generation of a serie of random numbers
+ *
+ * @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
+ * @version : %G%
+ */
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -27,8 +29,9 @@ public class RandomNumber {
     private static void printBlueText(String message) {
         System.out.println(ANSI_BLUE + message + ANSI_RESET);
     }
+
     /** Method used to launch the program
-    */
+     */
     public static void menu() {
 
         int m = askUser("Sélectionnez la valeur de m");
@@ -59,25 +62,24 @@ public class RandomNumber {
             x = askUser("Sélectionnez la valeur de X0");
         }
 
-        int e = askUser("Sélectionnez la valeur du degré d'erreur");
-
         calcTab(a, c, m, x);
     }
 
     /** make the calculation of the array and ask to print it in the console
-    * @param a value of the parameter a
-    * @param c value of the parameter c
-    * @param m value of the parameter m
-    * @param x value of the parameter X0
-    */
+     * @param a value of the parameter a
+     * @param c value of the parameter c
+     * @param m value of the parameter m
+     * @param x value of the parameter X0
+     */
     private static void calcTab(int a, int c, int m, int x) {
 
         //before grouping
         int[] tab = arrayListToArray(hubbDobell(a, c, m, x));
         int period = tab.length;
         double[] ri = realProbability(tab, period);
-        double[] pi = piCalculation(period, false);
-        double[] npi = piCalculation(period, true);
+        double n = sum(ri);
+        double[] pi = piCalculation(period, false,1);
+        double[] npi = piCalculation(period, true,n);
         double[] khi = khiSquare(ri, npi);
 
         String[] xi = new String[ri.length];
@@ -107,12 +109,36 @@ public class RandomNumber {
 
         printTab(newxi, toString(newRi), tabToPourcent(newPi), toString(newNpi), toString(newKhi));
         System.out.println('\n');
-        if (newNpi.length == 1) {
+
+        final double[] tabKhi = {3.84, 5.99, 7.81, 9.49, 11.07, 12.59, 14.07, 15.51, 16.92, 18.31, 19.68, 21.03, 22.36, 23.68, 25.00, 26.30, 27.59, 28.87, 30.14, 31.41, 33.92, 36.42, 38.89, 41.34, 43.77};
+
+        if (newNpi.length <2) {
             System.out.println("La période est beaucoup trop petite et la contrainte n'est jamais respectée, v = -1");
+            System.out.println("La suite aléatoire est refusée!");
         } else {
             System.out.println("Calcul du degré de liberté: v = " + (index + 1) + "-1 = " + index);
+            if (index > tab.length) {
+                System.out.println("Erreur, tableau du khi carré limité à dl=30");
+            } else {
+                double sum = sum(newKhi);
+                System.out.println("Somme des khi-carré: "+sum);
+                System.out.println("Valeur dans le tableau pour 0.05: "+tabKhi[index-1]);
+                if (sum < tabKhi[index - 1]) {
+                    System.out.println("La suite aléatoire est acceptée!");
+                } else {
+                    System.out.println("La suite aléatoire est refusée!");
+                }
+            }
         }
 
+    }
+
+    private static double sum(double[] tab) {
+        double sum = 0;
+        for (int i = 0; i < tab.length; i++) {
+            sum += tab[i];
+        }
+        return sum;
     }
 
     private static String[] toString(double[] tab) {
@@ -134,8 +160,8 @@ public class RandomNumber {
     }
 
     /*
-    * ask to the user and force them to enter a integer
-    */
+     * ask to the user and force them to enter a integer
+     */
     private static int askUser(String message) {
         while (true) {
             Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
@@ -231,9 +257,9 @@ public class RandomNumber {
      * Give the array of Pi if needN is false
      * Give the array of n*Pi if needN is true
      */
-    private static double[] piCalculation(int n, boolean needN) {
-        double[] tab = new double[n];
-        for (int i = 0; i < n; i++) {
+    private static double[] piCalculation(int period, boolean needN,double n) {
+        double[] tab = new double[period];
+        for (int i = 0; i < period; i++) {
             tab[i] = expectedProbability(i + 1);
             if (needN) {
                 tab[i] *= n;
@@ -247,7 +273,6 @@ public class RandomNumber {
      */
     private static double[] khiSquare(double[] r, double[] nPi) {
         double[] khi = new double[r.length];
-
         for (int i = 0; i < r.length; i++) {
             if (r[i] < 1) {
                 khi[i] = nPi[i];

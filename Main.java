@@ -46,7 +46,7 @@ public class Main {
         System.out.println();
         printGreenText("MENU");
         printGreenText("Appuyez sur 1 pour générer une suite aléatoire et la tester.");
-        printGreenText("Appuyez sur 2 pour effectuer une simulation de liste d'attente avancée.");
+        printGreenText("Appuyez sur 2 pour effectuer une simulation de liste d'attente.");
         printGreenText("Appuyez sur 3 pour effectuer une simulation de liste d'attente type. L'exemple du cours.");
         printGreenText("Appuyez sur 4 pour effectuer une simulation de liste d'attente avancée.");
         printGreenText("Appuyez sur 5 pour terminer.");
