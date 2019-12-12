@@ -68,9 +68,15 @@ public class Station {
      * @param Smin minimum of the S parameter
      * @param Smax maximum of the S parameter
      * @param tempsSimulation time max of the simulation
-     * @param simulation
-     * @param debutDetail
-     * @param finDetail, int SDetail, double prixOccupationStation, double prixInoccupationStation, double prixClientDevenuOrdinaire, double prixClientPrioritaire, double prixClientOrdinaire
+     * @param simulation array of people that enters at a special timing
+     * @param debutDetail begin of the  timing for the detail between two interval
+     * @param finDetail begin of the  timing for the detail between two interval
+     * @param SDetail TODO
+     * @param prixOccupationStation cost of an occuped station
+     * @param prixInoccupationStation cost of an inoccuped station
+     * @param prixClientDevenuOrdinaire cost of a client premium client that became ordinary
+     * @param prixClientPrioritaire cost of helping a priority client
+     * @param prixClientOrdinaire cost of helping a non-priority client
      */
     public static void calcule(int Smin, int Smax, int tempsSimulation, ArrayList<Personne> simulation, int debutDetail, int finDetail, int SDetail, double prixOccupationStation, double prixInoccupationStation, double prixClientDevenuOrdinaire, double prixClientPrioritaire, double prixClientOrdinaire) {
         int S = Smin;
@@ -186,6 +192,10 @@ public class Station {
         afficherCouts(tabCout, Smin);
     }
 
+    /** print the costs inside of the console
+    * @param Smin TODO
+    * @param tabCout array of the costs
+    */
     private static void afficherCouts(double[] tabCout, int Smin) {
 
         String leftAlignFormat = "| %-18s | %-25s |%n";
@@ -197,9 +207,9 @@ public class Station {
         }
         System.out.format("+--------------------+---------------------------+%n");
 
-        double[] res = min(tabCout);
+        int index = min(tabCout);
         System.out.println();
-        System.out.println("Le nombre de station optimal est " + ((int) res[0] + Smin) + " avec un coût minimum de " + String.format("%.2f", res[1]) + " euros");
+        System.out.println("Le nombre de station optimal est " + (index + Smin) + " avec un coût minimum de " + String.format("%.2f", tabCout[index]) + " euros");
         System.out.println();
     }
 
@@ -215,8 +225,8 @@ public class Station {
         System.out.format("+--------------+------------------+---------------+-------------+%n");
     }
 
-    /*
-     * generate time of services
+    /** generata a ramdom duration of services
+     * @return a random duration of services
      */
     private static int generationDureeService() {
         int random = generationEntierAleatoire(1, 58);
@@ -235,6 +245,9 @@ public class Station {
         }
     }
 
+    /** TODO
+     *
+     */
     private static int generationDureeServiceAdvanced(int[] tab) {
         int random = generationEntierAleatoire(1, 10000);
         if (random < tab[0] + 1) {
@@ -252,6 +265,11 @@ public class Station {
         }
     }
 
+    /**  TODO
+    * @param tab TODO
+    * @param index TODO
+    * @return TODO
+    */
     private static int sumTab(int[] tab, int index) {
         int sum = 0;
         for (int i = 0; i < index + 1; i++) {
@@ -281,6 +299,10 @@ public class Station {
         }
     }
 
+    /** TODO
+    * @param parametre parameter of the poisson probability law
+    * @return TODO
+    */
     public static int[] poisson(double parametre) {
         int[] res = new int[6];
         double term = Math.pow(Math.E, -1.0 * parametre);
@@ -290,6 +312,10 @@ public class Station {
         return res;
     }
 
+    /** factorial
+    * @param i number
+    * @return the result of the factorial of i
+    */
     private static int fact(int i) {
         int res = 1;
         while (i > 1) {
@@ -299,14 +325,19 @@ public class Station {
         return res;
     }
 
-    /*
-     * generate a random number between min et max
+    /** generate a random number between min et max
+     * @param min the min value of the generated integer
+     * @param max the max value for the generated integer
+     * @return an random integer generated
      */
     private static int generationEntierAleatoire(int min, int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
 
+    /** randomely pick if a person is priority or not
+    * @return true or false depending on the priority of the person
+    */
     private static boolean estPrioritaire() {
         int random = generationEntierAleatoire(1, 10);
         if (random < 4) {
@@ -316,10 +347,10 @@ public class Station {
         }
     }
 
-    /*
-     * Renvoie l'index et la valeur de la plus petite valeur du tableau
+    /**  return the index and the value of the smallest element in the array
+     *
      */
-    private static double[] min(double[] tab) {
+    private static int min(double[] tab) {
         double min = Double.POSITIVE_INFINITY;
         double index = -1.0;
         for (int i = 0; i < tab.length; i++) {
@@ -328,9 +359,6 @@ public class Station {
                 index = i;
             }
         }
-        double[] res = new double[2];
-        res[0] = index;
-        res[1] = min;
-        return res;
+        return index;
     }
 }
