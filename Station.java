@@ -8,6 +8,14 @@ import java.util.Random;
 
 public class Station {
 
+  /** TODO
+  * @param tempsSimulation duration of the simulation
+  * @param Smin minimum of the S parameter
+  * @param Smax maximum of the S parameter
+  * @param poisson TODO
+  * @param tab TODO
+  * @return TODO
+  */
     public static ArrayList<Personne> generationSimulation(int tempsSimulation, int Smin, int Smax, double poisson, int[] tab) {
         ArrayList<Personne> simulation = new ArrayList<Personne>();
         int nbPrioritaire = 0;
@@ -56,8 +64,13 @@ public class Station {
     }
 
 
-    /*
-     * calculation of S optimum and cost
+    /** calculation of S optimum and cost
+     * @param Smin minimum of the S parameter
+     * @param Smax maximum of the S parameter
+     * @param tempsSimulation time max of the simulation
+     * @param simulation
+     * @param debutDetail
+     * @param finDetail, int SDetail, double prixOccupationStation, double prixInoccupationStation, double prixClientDevenuOrdinaire, double prixClientPrioritaire, double prixClientOrdinaire
      */
     public static void calcule(int Smin, int Smax, int tempsSimulation, ArrayList<Personne> simulation, int debutDetail, int finDetail, int SDetail, double prixOccupationStation, double prixInoccupationStation, double prixClientDevenuOrdinaire, double prixClientPrioritaire, double prixClientOrdinaire) {
         int S = Smin;

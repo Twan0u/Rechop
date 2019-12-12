@@ -1,4 +1,4 @@
-/** generation of a serie of random numbers 
+/** generation of a serie of random numbers
 * @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
 * @version : %G%
 */
@@ -27,7 +27,8 @@ public class RandomNumber {
     private static void printBlueText(String message) {
         System.out.println(ANSI_BLUE + message + ANSI_RESET);
     }
-
+    /** Method used to launch the program
+    */
     public static void menu() {
 
         int m = askUser("Sélectionnez la valeur de m");
@@ -63,6 +64,12 @@ public class RandomNumber {
         calcTab(a, c, m, x);
     }
 
+    /** make the calculation of the array and ask to print it in the console
+    * @param a value of the parameter a
+    * @param c value of the parameter c
+    * @param m value of the parameter m
+    * @param x value of the parameter X0
+    */
     private static void calcTab(int a, int c, int m, int x) {
 
         //before grouping
@@ -126,6 +133,9 @@ public class RandomNumber {
         return out;
     }
 
+    /*
+    * ask to the user and force them to enter a integer
+    */
     private static int askUser(String message) {
         while (true) {
             Scanner scannerObj = new Scanner(System.in);  // Create a Scanner object
@@ -284,11 +294,11 @@ public class RandomNumber {
         return res;
     }
 
-    /*
-     * renvoie un tableau transformé
-     * tab à copier
-     * index où il y a un changement
-     * sum calculée dans compress
+    /** return a transformed array
+     * @param tab the array to copy
+     * @param index where to apply the change
+     * @param sum the addition previously calc inside of the compress function
+     * @return table whith a part of it compressed at the end
      */
     private static double[] transform(double[] tab, int index, double sum) {
         double[] res = new double[index + 1];

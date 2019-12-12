@@ -4,7 +4,7 @@ run: Main.class
 compile: Main.class
 	echo "go"
 
-javadoc:
+javadoc: Station.java
 	    javadoc -d javadoc  Main.java Personne.java RandomNumber.java Station.java
 
 Main.class: Main.java RandomNumber.class
