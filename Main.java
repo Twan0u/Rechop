@@ -5,6 +5,7 @@
 * @version : %G%
 */
 
+// a 63, c 57, m 32767, x0 356
 
 import java.util.ArrayList;
 import java.util.Scanner;

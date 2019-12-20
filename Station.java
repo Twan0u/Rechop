@@ -1,21 +1,23 @@
-/** part of the program responsable of the station traitement and simulation
-* @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
-* @version : %G%
-*/
+/**
+ * part of the program responsable of the station traitement and simulation
+ *
+ * @author : Antoine Dumont, Antoine Herrent, Antoine Lambert
+ * @version : %G%
+ */
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Station {
 
-  /** TODO
-  * @param tempsSimulation duration of the simulation
-  * @param Smin minimum of the S parameter
-  * @param Smax maximum of the S parameter
-  * @param poisson TODO
-  * @param tab TODO
-  * @return TODO
-  */
+    /** TODO
+     * @param tempsSimulation duration of the simulation
+     * @param Smin minimum of the S parameter
+     * @param Smax maximum of the S parameter
+     * @param poisson TODO
+     * @param tab TODO
+     * @return TODO
+     */
     public static ArrayList<Personne> generationSimulation(int tempsSimulation, int Smin, int Smax, double poisson, int[] tab) {
         ArrayList<Personne> simulation = new ArrayList<Personne>();
         int nbPrioritaire = 0;
@@ -109,17 +111,17 @@ public class Station {
                         tabTempsTotal[j] = 0;
                     }
                 }
-                for (int k = 0; k < simulation.size(); k++) {
-                    if (simulation.get(k).getArrivee() == (t - 1)) {
-                        if (simulation.get(k).isPrioritaire()) {
+                for (Personne personne : simulation) {
+                    if (personne.getArrivee() == (t - 1)) {
+                        if (personne.isPrioritaire()) {
                             if (filePrioritaire.size() < 6) {
-                                filePrioritaire.add(simulation.get(k));
+                                filePrioritaire.add(personne);
                             } else {
-                                fileNormale.add(simulation.get(k));
+                                fileNormale.add(personne);
                                 nbClientDevenuOrdinaire++;
                             }
                         } else {
-                            fileNormale.add(simulation.get(k));
+                            fileNormale.add(personne);
                         }
                     }
                 }
@@ -193,9 +195,9 @@ public class Station {
     }
 
     /** print the costs inside of the console
-    * @param Smin TODO
-    * @param tabCout array of the costs
-    */
+     * @param Smin TODO
+     * @param tabCout array of the costs
+     */
     private static void afficherCouts(double[] tabCout, int Smin) {
 
         String leftAlignFormat = "| %-18s | %-25s |%n";
@@ -266,10 +268,10 @@ public class Station {
     }
 
     /**  TODO
-    * @param tab TODO
-    * @param index TODO
-    * @return TODO
-    */
+     * @param tab TODO
+     * @param index TODO
+     * @return TODO
+     */
     private static int sumTab(int[] tab, int index) {
         int sum = 0;
         for (int i = 0; i < index + 1; i++) {
@@ -300,9 +302,9 @@ public class Station {
     }
 
     /** TODO
-    * @param parametre parameter of the poisson probability law
-    * @return TODO
-    */
+     * @param parametre parameter of the poisson probability law
+     * @return TODO
+     */
     public static int[] poisson(double parametre) {
         int[] res = new int[6];
         double term = Math.pow(Math.E, -1.0 * parametre);
@@ -313,9 +315,9 @@ public class Station {
     }
 
     /** factorial
-    * @param i number
-    * @return the result of the factorial of i
-    */
+     * @param i number
+     * @return the result of the factorial of i
+     */
     private static int fact(int i) {
         int res = 1;
         while (i > 1) {
@@ -336,8 +338,8 @@ public class Station {
     }
 
     /** randomely pick if a person is priority or not
-    * @return true or false depending on the priority of the person
-    */
+     * @return true or false depending on the priority of the person
+     */
     private static boolean estPrioritaire() {
         int random = generationEntierAleatoire(1, 10);
         if (random < 4) {
