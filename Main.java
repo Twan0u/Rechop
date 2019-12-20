@@ -150,7 +150,7 @@ public class Main {
         int SDetail = 0;
         switch (res) {
             case 1:
-                SDetail = askUser("Choisissez la station à voir en détail.");
+                SDetail = askUser("Choisissez pour un nombre de stations à voir en détail.");
                 debutDetail = askUser("Choisissez le début à voir en détail. Commence en t=1.");
                 finDetail = askUser("Choisissez le fin à voir en détail.");
                 Station.calcule(Smin, Smax, tempsSimulation, simulation, debutDetail, finDetail, SDetail, prixOccupationStation, prixInoccupationStation, prixClientDevenuOrdinaire, prixClientPrioritaire, prixClientOrdinaire);
